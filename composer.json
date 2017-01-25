@@ -18,10 +18,5 @@
         "php": ">=5.6.4",
         "lbaytek/laravel-content":"^1.0.0"
     },
-    "scripts": {
-        "post-package-install": {
-            "Baytek\\LaravelContentWebpage\\Seeds\\DatabaseSeeder::run"
-        }
-    },
     "minimum-stability": "dev"
 }
