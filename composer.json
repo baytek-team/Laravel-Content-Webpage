@@ -1,0 +1,27 @@
+{
+    "name": "baytek/laravel-content-webpage",
+    "description": "Webpage Content Provider",
+    "license": "MIT",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Yvon Viger",
+            "email": "yvon@baytek.ca"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Baytek\\LaravelContentWebpage\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=5.6.4",
+        "lbaytek/laravel-content":"^1.0.0"
+    },
+    "scripts": {
+        "post-package-install": {
+            "Baytek\\LaravelContentWebpage\\Seeds\\DatabaseSeeder::run"
+        }
+    },
+    "minimum-stability": "dev"
+}
