@@ -2,11 +2,11 @@
 
 namespace Baytek\Laravel\Content\Webpage;
 
-use Baytek\LaravelContent\Controllers\ContentController;
-use Baytek\LaravelContent\Controllers\Controller;
-use Baytek\LaravelContent\Models\Content;
-use Baytek\LaravelContent\Models\ContentMeta;
-use Baytek\LaravelContent\Models\ContentRelation;
+use Baytek\Laravel\Content\Controllers\ContentController;
+use Baytek\Laravel\Content\Controllers\Controller;
+use Baytek\Laravel\Content\Models\Content;
+use Baytek\Laravel\Content\Models\ContentMeta;
+use Baytek\Laravel\Content\Models\ContentRelation;
 use Baytek\Laravel\Content\Webpage\Webpage;
 
 use Illuminate\Http\Request;
@@ -55,7 +55,7 @@ class WebpageController extends Controller
         $this->content->store($request);
         // parent::store();
 
-        return redirect(action('\Baytek\LaravelContent\Controllers\ContentController@show', $webpage));
+        return redirect(action('\Baytek\Laravel\Content\Controllers\ContentController@show', $webpage));
     }
 
     /**
@@ -98,7 +98,7 @@ class WebpageController extends Controller
     {
         $this->content->update($request, $webpage);
 
-        return redirect(action('\Baytek\LaravelContent\Controllers\ContentController@show', $webpage));
+        return redirect(action('\Baytek\Laravel\Content\Controllers\ContentController@show', $webpage));
     }
 
     /**

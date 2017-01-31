@@ -2,7 +2,7 @@
 
 namespace Baytek\Laravel\Content\Webpage;
 
-use Baytek\LaravelContent\Models\Content;
+use Baytek\Laravel\Content\Models\Content;
 
 class Webpage extends Content
 {

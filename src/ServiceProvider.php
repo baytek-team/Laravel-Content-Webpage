@@ -2,8 +2,8 @@
 
 namespace Baytek\Laravel\Content\Webpage;
 
-use Baytek\LaravelContent\Models\Content;
-use Baytek\LaravelContent\Policies\ContentPolicy;
+use Baytek\Laravel\Content\Models\Content;
+use Baytek\Laravel\Content\Policies\ContentPolicy;
 use Baytek\Laravel\Content\Webpage\Settings\ViewComposer;
 use Baytek\Laravel\Content\Webpage\Webpage;
 
