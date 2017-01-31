@@ -1,6 +1,6 @@
 <?php
 
-namespace Baytek\Laravel\Content\Webpage\Settings;
+namespace Baytek\Laravel\Content\Types\Webpage\Settings;
 
 use Illuminate\View\View;
 

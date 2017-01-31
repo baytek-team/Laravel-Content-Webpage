@@ -11,7 +11,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Baytek\\Laravel\\Content\\Webpage\\": "src/"
+            "Baytek\\Laravel\\Content\\Types\\Webpage\\": "src/"
         }
     },
     "require": {

@@ -1,13 +1,13 @@
 <?php
 
-namespace Baytek\Laravel\Content\Webpage;
+namespace Baytek\Laravel\Content\Types\Webpage;
 
 use Baytek\Laravel\Content\Controllers\ContentController;
 use Baytek\Laravel\Content\Controllers\Controller;
 use Baytek\Laravel\Content\Models\Content;
 use Baytek\Laravel\Content\Models\ContentMeta;
 use Baytek\Laravel\Content\Models\ContentRelation;
-use Baytek\Laravel\Content\Webpage\Webpage;
+use Baytek\Laravel\Content\Types\Webpage\Webpage;
 
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Bus\DispatchesJobs;
