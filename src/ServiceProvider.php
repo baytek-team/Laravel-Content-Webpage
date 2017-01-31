@@ -6,6 +6,7 @@ use Baytek\Laravel\Content\Models\Content;
 use Baytek\Laravel\Content\Policies\ContentPolicy;
 use Baytek\Laravel\Content\Types\Webpage\Settings\ViewComposer;
 use Baytek\Laravel\Content\Types\Webpage\Webpage;
+use Baytek\Laravel\Content\Types\Webpage\Settings\WebpageSettings;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider;
 use Illuminate\Routing\Middleware\SubstituteBindings;
@@ -14,9 +15,10 @@ use Illuminate\Support\Facades\Route;
 
 use View;
 
-
 class ServiceProvider extends AuthServiceProvider
 {
+    use \Baytek\Laravel\Settings\Settable;
+
     protected $policies = [
         Content::class => ContentPolicy::class,
     ];
@@ -28,6 +30,10 @@ class ServiceProvider extends AuthServiceProvider
      */
     public function boot()
     {
+        $this->registerSettings([
+            'webpage' => WebpageSettings::class
+        ]);
+
         $this->loadViewsFrom(__DIR__.'/../src/Views', 'Webpage');
 
         Route::group([
@@ -38,13 +44,13 @@ class ServiceProvider extends AuthServiceProvider
                 $router->get('{webpage}', '\Baytek\Laravel\Content\Types\Webpage\WebpageController@show');
 
                 $router->bind('webpage', function($slug) {
-                    return Webpage::where('key', $slug)->firstOrFail();
+                    $webpage = Webpage::where('key', $slug)->first();
+                    if(is_null($webpage)) {
+                        abort(404);
+                    }
+                    return $webpage;
                 });
             });
-
-        View::composer(
-            'Webpage::*', ViewComposer::class
-        );
     }
 
     /**

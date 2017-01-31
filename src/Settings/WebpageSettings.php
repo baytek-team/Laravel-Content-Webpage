@@ -2,16 +2,17 @@
 
 namespace Baytek\Laravel\Content\Types\Webpage\Settings;
 
-// use Baytek\LaravelSettings;
+use Baytek\Laravel\Settings\Settings;
 
-class WebpageSettings //extends Settings
+class WebpageSettings extends Settings
 {
 	protected $public = [
-		'per_page' => 10
+		'per_page'
 	];
 
-	public function getSettings()
-	{
-		return $this->public;
-	}
+	protected $settings = [
+		'per_page' => 10,
+		'background' => 'red',
+		'stuff' => 'stuff'
+	];
 }
