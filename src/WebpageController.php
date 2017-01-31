@@ -1,10 +1,13 @@
 <?php
 
-namespace App\ContentTypes\Webpage;
+namespace Baytek\Laravel\Content\Webpage;
 
-use Baytek\LaravelContent\Controllers\Controller;
 use Baytek\LaravelContent\Controllers\ContentController;
-use App\ContentTypes\Webpage\Webpage;
+use Baytek\LaravelContent\Controllers\Controller;
+use Baytek\LaravelContent\Models\Content;
+use Baytek\LaravelContent\Models\ContentMeta;
+use Baytek\LaravelContent\Models\ContentRelation;
+use Baytek\Laravel\Content\Webpage\Webpage;
 
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -64,7 +67,7 @@ class WebpageController extends Controller
     public function show(Webpage $webpage)
     {
         return View::make('Webpage::show', [
-            'webpage' => $webpage
+            'webpage' => $webpage->load(Content::$eager)
         ]);
         // return $webpage->load(Webpage::$eager);
     }

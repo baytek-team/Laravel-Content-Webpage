@@ -1,6 +1,6 @@
 <?php
 
-namespace Baytek\LaravelContentWebpage;
+namespace Baytek\Laravel\Content\Webpage;
 
 use Baytek\LaravelContent\Models\Content;
 

@@ -11,9 +11,23 @@
 <div class="ui hidden divider"></div>
 <div class="ui hidden divider"></div>
 
-@foreach($webpages as $webpage)
-    {{ $webpage->title }}
-@endforeach
+
+<table class="ui">
+	@foreach($webpages as $webpage)
+		<tr>
+			<td>
+	    		{{ $webpage->title }}
+    		</td>
+    		<td>
+	    		Edit
+    		</td>
+    		<td>
+	    		Delete
+    		</td>
+    	</tr>
+	@endforeach
+</table>
+
 
 <!-- pagination start -->
 <div class="ui hidden divider"></div>
