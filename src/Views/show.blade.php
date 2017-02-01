@@ -19,7 +19,7 @@
 		    </div>
 	        <div class="ui segment blue bottom">
 	            @php
-	    			dump($webpage_settings);
+	    			dump(config('content.webpage'));
 	    		@endphp
 	        </div>
 
