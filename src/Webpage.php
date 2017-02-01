@@ -10,6 +10,10 @@ class Webpage extends Content
 		'author_id'
 	];
 
+	public $relationships = [
+		'content-type' => 'webpage'
+	];
+
 	public function getRouteKeyName()
 	{
 	    return 'key';

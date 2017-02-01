@@ -1,36 +1,37 @@
-@extends('Pretzel::admin')
+@extends('Content::admin')
 @section('content')
-
-<h1 class="ui header">
-    <i class="user icon"></i>
-    <div class="content">
-        Webpage Management
-        <div class="sub header">Manage the Webpages of the claims application.</div>
-    </div>
-</h1>
-<div class="ui hidden divider"></div>
-<div class="ui hidden divider"></div>
+<div class="webpage" style="padding-top: 100px">
+	<div class="ui text aligned center header">
+		<h1 style="font-size: 48px;margin-bottom: 100px">
+			List of all webpages
+		</h1>
+	</div>
 
 
-<table class="ui">
-	@foreach($webpages as $webpage)
-		<tr>
-			<td>
-	    		{{ $webpage->title }}
-    		</td>
-    		<td>
-	    		Edit
-    		</td>
-    		<td>
-	    		Delete
-    		</td>
-    	</tr>
-	@endforeach
-</table>
+	<table class="ui celled table">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Key</th>
+				<th>Title</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach($webpages as $webpage)
+				<tr>
+					<td>{{ $webpage->id }}</td>
+					<td>{{ $webpage->key }}</td>
+					<td>{{ $webpage->title }}</td>
+					<td>
+						<a href="{{ route('webpage.edit', $webpage) }}" class="ui button primary">Edit</a>
+						<a href="{{ route('webpage.destroy', $webpage) }}" class="ui button warning">Delete</a>
+					</td>
+				</tr>
+			@endforeach
+		</tbody>
+	</table>
 
-
-<!-- pagination start -->
-<div class="ui hidden divider"></div>
-<!-- pagination end -->
+</div>
 
 @endsection

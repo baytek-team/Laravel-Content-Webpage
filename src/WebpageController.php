@@ -16,32 +16,43 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 use View;
 
-class WebpageController extends Controller
+class WebpageController extends ContentController
 {
-    protected $type = 'Webpage';
+    protected $model = Webpage::class;
+
+    protected $views = [
+        'index' => 'index',
+        'create' => 'create',
+        'edit' => 'edit',
+        'show' => 'show',
+    ];
+
     /**
-     * Display a listing of the resource.
+     * Show the index of all content with content type 'webpage'
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        return View::make('Webpage::index', [
-            'webpages' => Webpage::childrenOf('webpage')->get()
-        ]);
+        $this->viewData['index'] = [
+            'webpages' => Webpage::childrenOf('webpage')->get(),
+        ];
+
+        return parent::index();
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new webpage.
      *
      * @return \Illuminate\Http\Response
      */
     public function create()
     {
-        return view('Pretzel::content.create', [
-            'contents' => Webpage::select('id', 'status', 'revision', 'language', 'title')->get(),
-            'content' => (new Webpage)
-        ]);
+        $this->viewData['create'] = [
+            'parents' => Webpage::childrenOf('webpage')->get(),
+        ];
+
+        return parent::create();
     }
 
     /**
@@ -52,64 +63,123 @@ class WebpageController extends Controller
      */
     public function store(Request $request)
     {
-        $this->content->store($request);
-        // parent::store();
+        $this->redirects = false;
 
-        return redirect(action('\Baytek\Laravel\Content\Controllers\ContentController@show', $webpage));
+        $request->merge(['key' => str_slug($request->title)]);
+
+        $webpage = parent::store($request);
+
+        if($request->parent_id) {
+            $webpage->saveRelation('parent-id', $request->parent_id);
+        }
+
+        foreach($webpage->relationships as $contentType => $type) {
+            $webpage->saveRelation($contentType, Webpage::where('key', $type)->first()->id);
+        }
+
+        return redirect(route($this->names['singular'].'.show', $webpage));
     }
 
     /**
-     * Display the specified resource.
+     * Show the form for creating a new webpage.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Webpage $webpage)
+    public function edit($id)
     {
-        return View::make('Webpage::show', [
-            'webpage' => $webpage->load(Content::$eager)
-        ]);
-        // return $webpage->load(Webpage::$eager);
+        $this->viewData['edit'] = [
+            'parents' => Webpage::childrenOf('webpage')->get(),
+        ];
+
+        return parent::edit($id);
     }
+
+
+    // protected function bound($id)
+    // {
+    //     return $this->model->find($id)->firstOrFail();
+    // }
+
 
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for creating a new resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Webpage $webpage)
-    {
-        return view('Pretzel::content.edit', [
-            'contents' => Webpage::select('id', 'status', 'revision', 'language', 'title')->get(),
-            'relationTypes' => Webpage::childrenOf('relation-type')->get(),
-            'content' => $webpage,
-        ]);
-    }
+    // public function create()
+    // {
+    //     return view($this->view('create'), [
+    //         'contents' => Webpage::select('id', 'status', 'revision', 'language', 'title')->get(),
+    //         'content' => (new Webpage)
+    //     ]);
+    // }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Webpage $webpage)
-    {
-        $this->content->update($request, $webpage);
+    // /**
+    //  * Store a newly created resource in storage.
+    //  *
+    //  * @param  \Illuminate\Http\Request  $request
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function store(Request $request)
+    // {
+    //     // $this->content->store($request);
+    //     // parent::store();
 
-        return redirect(action('\Baytek\Laravel\Content\Controllers\ContentController@show', $webpage));
-    }
+    //     return redirect(action('\Baytek\Laravel\Content\Controllers\ContentController@show', $webpage));
+    // }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Webpage $webpage)
-    {
-        //
-    }
+    // /**
+    //  * Display the specified resource.
+    //  *
+    //  * @param  int  $id
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function show($id)
+    // {
+    //     return View::make($this->view('show'), [
+    //         'webpage' => $webpage->load(Content::$eager)
+    //     ]);
+    //     // return $webpage->load(Webpage::$eager);
+    // }
+
+    // /**
+    //  * Show the form for editing the specified resource.
+    //  *
+    //  * @param  int  $id
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function edit($id)
+    // {
+    //     return view($this->view('edit'), [
+    //         'contents' => Webpage::select('id', 'status', 'revision', 'language', 'title')->get(),
+    //         'relationTypes' => Webpage::childrenOf('relation-type')->get(),
+    //         'content' => $webpage,
+    //     ]);
+    // }
+
+    // /**
+    //  * Update the specified resource in storage.
+    //  *
+    //  * @param  \Illuminate\Http\Request  $request
+    //  * @param  int  $id
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function update(Request $request, $id)
+    // {
+    //     // $this->content->update($request, $webpage);
+
+    //     return redirect(action('\Baytek\Laravel\Content\Controllers\ContentController@show', $webpage));
+    // }
+
+    // /**
+    //  * Remove the specified resource from storage.
+    //  *
+    //  * @param  int  $id
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function destroy($id)
+    // {
+    //     //
+    // }
 
 }

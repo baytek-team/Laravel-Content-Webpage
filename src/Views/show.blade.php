@@ -1,4 +1,4 @@
-@extends('Pretzel::admin')
+@extends('Content::admin')
 @section('content')
 <div class="webpage" style="padding-top: 100px">
 	<div class="ui text aligned center header">

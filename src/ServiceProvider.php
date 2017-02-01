@@ -4,7 +4,6 @@ namespace Baytek\Laravel\Content\Types\Webpage;
 
 use Baytek\Laravel\Content\Models\Content;
 use Baytek\Laravel\Content\Policies\ContentPolicy;
-use Baytek\Laravel\Content\Types\Webpage\Settings\ViewComposer;
 use Baytek\Laravel\Content\Types\Webpage\Settings\WebpageSettings;
 use Baytek\Laravel\Content\Types\Webpage\Webpage;
 use Baytek\Laravel\Settings\Settable;
@@ -42,10 +41,11 @@ class ServiceProvider extends AuthServiceProvider
         // Set local namespace and make sure the route bindings occur
         Route::group([
                 'namespace' => \Baytek\Laravel\Content\Types\Webpage::class,
-                'middleware' => SubstituteBindings::class,
+                'middleware' => ['web'],
             ], function ($router)
             {
                 // Add the default route to the routes list for this provider
+                $router->resource('admin/webpage', '\Baytek\Laravel\Content\Types\Webpage\WebpageController');
                 $router->get('{webpage}', '\Baytek\Laravel\Content\Types\Webpage\WebpageController@show');
 
                 $router->bind('webpage', function($slug)
