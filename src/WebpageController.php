@@ -73,10 +73,6 @@ class WebpageController extends ContentController
             $webpage->saveRelation('parent-id', $request->parent_id);
         }
 
-        foreach($webpage->relationships as $contentType => $type) {
-            $webpage->saveRelation($contentType, Webpage::where('key', $type)->first()->id);
-        }
-
         return redirect(route($this->names['singular'].'.show', $webpage));
     }
 
