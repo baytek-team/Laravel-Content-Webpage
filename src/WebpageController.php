@@ -69,9 +69,7 @@ class WebpageController extends ContentController
 
         $webpage = parent::store($request);
 
-        if($request->parent_id) {
-            $webpage->saveRelation('parent-id', $request->parent_id);
-        }
+        $webpage->saveRelation('parent-id', $request->parent_id);
 
         return redirect(route($this->names['singular'].'.show', $webpage));
     }
@@ -89,12 +87,6 @@ class WebpageController extends ContentController
 
         return parent::edit($id);
     }
-
-
-    // protected function bound($id)
-    // {
-    //     return $this->model->find($id)->firstOrFail();
-    // }
 
 
     /**

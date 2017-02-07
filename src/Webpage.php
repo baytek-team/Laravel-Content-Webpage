@@ -10,6 +10,7 @@ class Webpage extends Content
 		'author_id'
 	];
 
+	// Content keys that will be saved to the relation tables
 	public $relationships = [
 		'content-type' => 'webpage'
 	];

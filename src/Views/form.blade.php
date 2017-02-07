@@ -19,7 +19,9 @@
 </div>
 <div class="field{{ $errors->has('content') ? ' error' : '' }}">
 	<label for="content">Content</label>
-	<textarea id="content" name="content" placeholder="Content">{{ old('content', $webpage->content) }}</textarea>
+	<!-- <textarea id="content" name="content" placeholder="Content">{{ old('content', $webpage->content) }}</textarea> -->
+	<input id="trix-content" type="hidden" name="content" value="{{ old('content', $webpage->content) }}">
+	<trix-editor input="trix-content"/>
 </div>
 
 {{--
@@ -149,3 +151,9 @@
 	</button>
 </div>
 --}}
+
+
+@section('head')
+<link rel="stylesheet" type="text/css" href="/css/trix.css">
+<script type="text/javascript" src="/js/trix.js"></script>
+@endsection
