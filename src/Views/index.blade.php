@@ -1,37 +1,51 @@
 @extends('Content::admin')
+
+@section('page.head.header')
+    <h1 class="ui header">
+        <i class="world icon"></i>
+        <div class="content">
+            Webpage Management
+            <div class="sub header">Manage the webpage content type.</div>
+        </div>
+    </h1>
+@endsection
+
+@section('page.head.menu')
+    <div class="ui secondary menu">
+    	<div class="right item">
+	        <a class="ui labeled icon button" href="{{ route('webpage.create') }}">
+	            <i class="world icon"></i>Add Webpage
+	        </a>
+	    </div>
+    </div>
+@endsection
+
 @section('content')
-<div class="webpage" style="padding-top: 100px">
-	<div class="ui text aligned center header">
-		<h1 style="font-size: 48px;margin-bottom: 100px">
-			List of all webpages
-		</h1>
-	</div>
+<div class="webpage">
 
-
-	<table class="ui celled table">
+	<table class="ui selectable table">
 		<thead>
 			<tr>
-				<th>ID</th>
-				<th>Key</th>
+				<th class="center aligned collapsing">ID</th>
+				<th class="center aligned collapsing">Key</th>
 				<th>Title</th>
-				<th>Actions</th>
+				<th class="center aligned collapsing">Actions</th>
 			</tr>
 		</thead>
 		<tbody>
 			@foreach($webpages as $webpage)
 				<tr>
-					<td>{{ $webpage->id }}</td>
-					<td>{{ $webpage->key }}</td>
+					<td class="collapsing">{{ $webpage->id }}</td>
+					<td class="collapsing">{{ $webpage->key }}</td>
 					<td>{{ $webpage->title }}</td>
-					<td>
-						<a href="{{ route('webpage.edit', $webpage) }}" class="ui button primary">Edit</a>
-						<a href="{{ route('webpage.destroy', $webpage) }}" class="ui button warning">Delete</a>
+					<td class="right aligned collapsing">
+						<a href="{{ route('webpage.edit', $webpage) }}" class="ui labeled icon button primary"><i class="pencil icon"></i>Edit</a>
+						<a href="{{ route('webpage.destroy', $webpage) }}" class="ui labeled icon button negative"><i class="delete icon"></i>Delete</a>
 					</td>
 				</tr>
 			@endforeach
 		</tbody>
 	</table>
-
 </div>
 
 @endsection

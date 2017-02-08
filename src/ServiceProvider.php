@@ -51,7 +51,7 @@ class ServiceProvider extends AuthServiceProvider
                 $router->bind('webpage', function($slug)
                 {
                     // Try to find the page with the slug, this should also check its parents and should also split on /
-                    $webpage = Webpage::where('key', $slug)->first();
+                    $webpage = Webpage::where('contents.key', $slug)->ofContentType('webpage')->first();
 
                     // Show the 404 page if not found
                     if(is_null($webpage)) {

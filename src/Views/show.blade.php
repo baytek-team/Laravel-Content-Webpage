@@ -1,11 +1,11 @@
 @extends('Content::admin')
 @section('content')
-<div class="webpage" style="padding-top: 100px">
-	<div class="ui text aligned center header">
-		<h1 style="font-size: 48px;margin-bottom: 100px">
-			{{ $webpage->title }}
-		</h1>
-	</div>
+<div class="webpage">
+	<h1 style="font-size: 48px;">
+		{{ $webpage->title }}
+	</h1>
+	<div class="ui hidden divider"></div>
+	<div class="ui hidden divider"></div>
 
 	{!! $webpage->content !!}
 
