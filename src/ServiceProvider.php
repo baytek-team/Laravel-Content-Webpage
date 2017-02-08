@@ -45,8 +45,8 @@ class ServiceProvider extends AuthServiceProvider
             ], function ($router)
             {
                 // Add the default route to the routes list for this provider
-                $router->resource('admin/webpage', '\Baytek\Laravel\Content\Types\Webpage\WebpageController');
-                $router->get('{webpage}', '\Baytek\Laravel\Content\Types\Webpage\WebpageController@show');
+                $router->resource('admin/webpage', 'WebpageController');
+                $router->get('{webpage}', 'WebpageController@show');
 
                 $router->bind('webpage', function($slug)
                 {
