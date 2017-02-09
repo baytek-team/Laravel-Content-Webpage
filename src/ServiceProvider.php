@@ -12,6 +12,8 @@ use Illuminate\Foundation\Support\Providers\AuthServiceProvider;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Application;
+use Baytek\Laravel\Settings\SettingsProvider;
 
 use View;
 
@@ -23,6 +25,11 @@ class ServiceProvider extends AuthServiceProvider
         Content::class => ContentPolicy::class,
     ];
 
+    protected $settings = [
+        'webpage' => WebpageSettings::class
+    ];
+
+
     /**
      * Bootstrap the application services.
      *
@@ -31,9 +38,7 @@ class ServiceProvider extends AuthServiceProvider
     public function boot()
     {
         // Register the settings
-        $this->registerSettings([
-            'webpage' => WebpageSettings::class
-        ]);
+        $this->registerSettings($this->settings);
 
         // Set the local load path for views
         $this->loadViewsFrom(__DIR__.'/../src/Views', 'Webpage');
