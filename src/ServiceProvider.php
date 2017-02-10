@@ -29,7 +29,6 @@ class ServiceProvider extends AuthServiceProvider
         'webpage' => WebpageSettings::class
     ];
 
-
     /**
      * Bootstrap the application services.
      *
