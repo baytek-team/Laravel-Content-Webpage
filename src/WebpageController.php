@@ -18,8 +18,17 @@ use View;
 
 class WebpageController extends ContentController
 {
+    /**
+     * The model the Content Controller super class will use to access the resource
+     *
+     * @var Baytek\Laravel\Content\Types\Webpage\Webpage
+     */
     protected $model = Webpage::class;
 
+    /**
+     * List of views this content type uses
+     * @var [type]
+     */
     protected $views = [
         'index' => 'index',
         'create' => 'create',

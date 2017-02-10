@@ -7,13 +7,13 @@ use Baytek\Laravel\Content\Policies\ContentPolicy;
 use Baytek\Laravel\Content\Types\Webpage\Settings\WebpageSettings;
 use Baytek\Laravel\Content\Types\Webpage\Webpage;
 use Baytek\Laravel\Settings\Settable;
+use Baytek\Laravel\Settings\SettingsProvider;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
-use Baytek\Laravel\Settings\SettingsProvider;
 
 use View;
 
@@ -21,10 +21,18 @@ class ServiceProvider extends AuthServiceProvider
 {
     use Settable;
 
+    /**
+     * List of permission policies used by this package
+     * @var [type]
+     */
     protected $policies = [
         Content::class => ContentPolicy::class,
     ];
 
+    /**
+     * List of settings classes required by this package
+     * @var Array
+     */
     protected $settings = [
         'webpage' => WebpageSettings::class
     ];
@@ -40,7 +48,12 @@ class ServiceProvider extends AuthServiceProvider
         $this->registerSettings($this->settings);
 
         // Set the local load path for views
-        $this->loadViewsFrom(__DIR__.'/../src/Views', 'Webpage');
+        $this->loadViewsFrom(__DIR__.'/../resources/Views', 'Webpage');
+
+        // Set the path to publish assets for users to extend
+        $this->publishes([
+            __DIR__.'/../resources/Views' => resource_path('views/vendor/webpage'),
+        ]);
 
         // Set local namespace and make sure the route bindings occur
         Route::group([

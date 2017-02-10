@@ -10,6 +10,13 @@ use Baytek\Laravel\Settings\Types\BooleanSetting;
 
 class WebpageSettings extends Settings
 {
+	/**
+	 * Public property defines a list of properties that can be managed by CMS admins or end users.
+	 *
+	 * Essentially these settings are treated as public settings
+	 *
+	 * @var Array
+	 */
 	protected $public = [
 		'per_page',
 		'background',
@@ -17,6 +24,11 @@ class WebpageSettings extends Settings
 		'depth',
 	];
 
+	/**
+	 * Webpage settings constructor.
+	 *
+	 * Here we register a list of settings objects.
+	 */
 	public function __construct()
 	{
 		$this->register([
