@@ -17,7 +17,7 @@ use Illuminate\Foundation\Application;
 
 use View;
 
-class ServiceProvider extends AuthServiceProvider
+class WebpageContentServiceProvider extends AuthServiceProvider
 {
     use Settable;
 
