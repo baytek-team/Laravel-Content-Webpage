@@ -41,7 +41,6 @@ This project depends on:
 ```javascript
 "baytek/laravel-content": "dev-master",
 "baytek/laravel-settings": "dev-master",
-
 ```
 
 ## Packing Info

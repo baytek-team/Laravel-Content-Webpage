@@ -25,7 +25,7 @@
             <div class="field actions">
 	            <a class="ui button" href="{{ route('webpage.index') }}">Cancel</a>
 	            <button type="submit" class="ui right floated primary button">
-	            	Save all the things
+	            	Create Content
             	</button>
             </div>
         </form>
