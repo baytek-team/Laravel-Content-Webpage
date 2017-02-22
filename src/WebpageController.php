@@ -9,10 +9,11 @@ use Baytek\Laravel\Content\Models\ContentMeta;
 use Baytek\Laravel\Content\Models\ContentRelation;
 use Baytek\Laravel\Content\Types\Webpage\Webpage;
 
-use Illuminate\Http\Request;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Http\Request;
+
 
 use View;
 
@@ -35,6 +36,7 @@ class WebpageController extends ContentController
         'edit' => 'edit',
         'show' => 'show',
     ];
+
 
     /**
      * Show the index of all content with content type 'webpage'
@@ -80,6 +82,8 @@ class WebpageController extends ContentController
 
         $webpage->saveRelation('parent-id', $request->parent_id);
 
+        $webpage->cacheUrl();
+
         return redirect(route($this->names['singular'].'.show', $webpage));
     }
 
@@ -96,5 +100,27 @@ class WebpageController extends ContentController
 
         return parent::edit($id);
     }
+
+
+    /**
+     * Show the form for creating a new webpage.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $this->redirects = false;
+
+        // $request->merge(['key' => str_slug($request->title)]);
+
+        $webpage = parent::update($request, $id);
+
+        // $webpage->saveRelation('parent-id', $request->parent_id);
+
+        $webpage->cacheUrl();
+
+        return redirect(route($this->names['singular'].'.show', $webpage));
+    }
+
 
 }

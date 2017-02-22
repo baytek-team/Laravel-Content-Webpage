@@ -4,6 +4,8 @@ namespace Baytek\Laravel\Content\Types\Webpage;
 
 use Baytek\Laravel\Content\Models\Content;
 
+use Cache;
+
 class Webpage extends Content
 {
 	/**
@@ -26,4 +28,17 @@ class Webpage extends Content
 	{
 	    return 'key';
 	}
+
+	public function cacheUrl()
+    {
+        $url = collect($this->getParents())->pluck('key')->implode('/');
+
+        $urls = Cache::get('baytek.laravel.webpage.urls', []);
+
+        $urls[$url] = $this->id;
+
+        Cache::forever('baytek.laravel.webpage.urls', $urls);
+
+        return $this;
+    }
 }

@@ -9,11 +9,12 @@ use Baytek\Laravel\Content\Types\Webpage\Webpage;
 use Baytek\Laravel\Settings\Settable;
 use Baytek\Laravel\Settings\SettingsProvider;
 
+use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider;
 use Illuminate\Routing\Middleware\SubstituteBindings;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Foundation\Application;
 
 use View;
 
@@ -63,17 +64,44 @@ class WebpageContentServiceProvider extends AuthServiceProvider
             {
                 // Add the default route to the routes list for this provider
                 $router->resource('admin/webpage', 'WebpageController');
-                $router->get('{webpage}', 'WebpageController@show');
+                $router->get('{webpage}', 'WebpageController@show')->where('webpage', '.*?');;
 
                 $router->bind('webpage', function($slug)
                 {
-                    // Try to find the page with the slug, this should also check its parents and should also split on /
-                    $webpage = Webpage::where('contents.key', $slug)->ofContentType('webpage')->first();
+                    $webpage = null;
+                    if($id = collect(Cache::get('baytek.laravel.webpage.urls', []))->get($slug, false)) {
+                        $webpage = Webpage::find($id);
+                    }
+                    // Try to load the content via another method
+                    else {
+                        // Try to find the page with the slug, this should also check its parents and should also split on /
+
+                        $segments = collect(explode('/', $slug));
+                        $webpages = Webpage::where('contents.key', $segments->last())->ofContentType('webpage')->get();
+
+                        $webpages->each(function($page) use ($segments, &$webpage)
+                        {
+                            // Get a list of the parents of current object
+                            $pages = collect($page->getParents());
+
+                            // If there is no difference of the result of the query and the URL segments we have a match
+                            if($segments->diff($pages->pluck('key'))->isEmpty()) {
+                                // Set the webpage to the match
+                                $webpage = $page;
+
+                                $webpage->cacheUrl();
+
+                                // Stop Processing
+                                return false;
+                            }
+                        });
+                    }
 
                     // Show the 404 page if not found
                     if(is_null($webpage)) {
                         abort(404);
                     }
+
                     return $webpage;
                 });
             });
@@ -86,6 +114,6 @@ class WebpageContentServiceProvider extends AuthServiceProvider
      */
     public function register()
     {
-
+        $this->app->register(\Baytek\Laravel\Content\ContentServiceProvider::class);
     }
 }

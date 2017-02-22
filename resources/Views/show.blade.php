@@ -50,4 +50,15 @@
 	</div>
 </div>
 
+<script>
+	var app = {
+	    content: {
+	        id: {{ $webpage->id }}
+	    },
+	    user: {
+	    	id: 1
+	    }
+	};
+</script>
+
 @endsection
