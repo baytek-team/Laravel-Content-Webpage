@@ -12,11 +12,11 @@ use Baytek\Laravel\Settings\SettingsProvider;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider;
 use Illuminate\Routing\Middleware\SubstituteBindings;
+use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
-
-use View;
+use Illuminate\Support\Facades\View;
 
 class WebpageContentServiceProvider extends AuthServiceProvider
 {
@@ -55,6 +55,10 @@ class WebpageContentServiceProvider extends AuthServiceProvider
         $this->publishes([
             __DIR__.'/../resources/Views' => resource_path('views/vendor/webpage'),
         ]);
+
+        Broadcast::channel('content.{contentId}', function ($user, $contentId) {
+            return true;//$user->id === Content::findOrNew($contentId)->user_id;
+        });
 
         // Set local namespace and make sure the route bindings occur
         Route::group([

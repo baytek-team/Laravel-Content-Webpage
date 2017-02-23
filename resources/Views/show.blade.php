@@ -1,13 +1,15 @@
 @extends('Content::admin')
 @section('content')
 <div class="webpage" style="background: {{ config('cms.content.webpage.background') }}">
-	<h1 style="font-size: 48px;">
+	<h1 style="font-size: 48px;" v-html="title">
 		{{ $webpage->title }}
 	</h1>
 	<div class="ui hidden divider"></div>
 	<div class="ui hidden divider"></div>
 
-	{!! $webpage->content !!}
+	<div id="content" v-html="content">
+		{!! $webpage->content !!}
+	</div>
 
 	<div class="ui hidden divider"></div>
 	<div class="ui hidden divider"></div>
@@ -53,7 +55,7 @@
 <script>
 	var app = {
 	    content: {
-	        id: {{ $webpage->id }}
+	        id: {{ $webpage->id }},
 	    },
 	    user: {
 	    	id: 1
