@@ -23,6 +23,6 @@
 </div>
 
 @section('head')
-<link rel="stylesheet" type="text/css" href="/css/trix.css">
-<script type="text/javascript" src="/js/trix.js"></script>
+{{-- <link rel="stylesheet" type="text/css" href="/css/trix.css"> --}}
+{{-- <script type="text/javascript" src="/js/trix.js"></script> --}}
 @endsection

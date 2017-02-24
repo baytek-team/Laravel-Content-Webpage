@@ -68,9 +68,9 @@ class WebpageContentServiceProvider extends AuthServiceProvider
             {
                 // Add the default route to the routes list for this provider
                 $router->resource('admin/webpage', 'WebpageController');
-                $router->get('{webpage}', 'WebpageController@show')->where('webpage', '.*?');;
+                $router->get('{url}', 'WebpageController@show')->where('url', '.*?');;
 
-                $router->bind('webpage', function($slug)
+                $router->bind('url', function($slug)
                 {
                     $webpage = null;
                     if($id = collect(Cache::get('baytek.laravel.webpage.urls', []))->get($slug, false)) {
