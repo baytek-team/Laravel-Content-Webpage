@@ -26,7 +26,7 @@ class Webpage extends Content
 
 	public function getRouteKeyName()
 	{
-	    return 'key';
+	    return 'id';
 	}
 
 	public function cacheUrl()
@@ -40,5 +40,25 @@ class Webpage extends Content
         Cache::forever('baytek.laravel.webpage.urls', $urls);
 
         return $this;
+    }
+
+    public function getUrl()
+    {
+    	$urls = array_flip(Cache::get('baytek.laravel.webpage.urls', []));
+
+    	if(!array_key_exists($this->id, $urls)) {
+    		$url = collect($this->getParents())->pluck('key')->implode('/');
+    		$urls = array_flip($urls);
+    		$urls[$url] = $this->id;
+    		Cache::forever('baytek.laravel.webpage.urls', $urls);
+
+    		return $url;
+    	}
+    	else {
+    		return $urls[$this->id];
+    	}
+
+
+
     }
 }

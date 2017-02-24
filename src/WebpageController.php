@@ -46,7 +46,7 @@ class WebpageController extends ContentController
     public function index()
     {
         $this->viewData['index'] = [
-            'webpages' => Webpage::childrenOf('webpage')->get(),
+            'webpages' => Webpage::childrenOf('webpage')->paginate(100),
         ];
 
         return parent::index();

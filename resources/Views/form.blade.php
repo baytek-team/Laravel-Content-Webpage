@@ -1,8 +1,3 @@
-<!-- <div class="field{{ $errors->has('key') ? ' error' : '' }}">
-	<label for="key">Key</label>
-	<input type="text" id="key" name="key" placeholder="Key" value="{{ old('key', $webpage->key) }}">
-</div> -->
-
 <div class="field">
 	<label for="title">Parent</label>
 	<select name="parent_id" class="ui dropdown">
