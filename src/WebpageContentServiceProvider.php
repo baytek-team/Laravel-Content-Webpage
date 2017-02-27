@@ -2,10 +2,11 @@
 
 namespace Baytek\Laravel\Content\Types\Webpage;
 
+use Baytek\Laravel\Content\ContentServiceProvider;
 use Baytek\Laravel\Content\Models\Content;
-use Baytek\Laravel\Content\Policies\ContentPolicy;
 use Baytek\Laravel\Content\Types\Webpage\Settings\WebpageSettings;
 use Baytek\Laravel\Content\Types\Webpage\Webpage;
+use Baytek\Laravel\Content\Types\Webpage\Policies\ContentPolicy;
 use Baytek\Laravel\Settings\Settable;
 use Baytek\Laravel\Settings\SettingsProvider;
 
@@ -27,7 +28,7 @@ class WebpageContentServiceProvider extends AuthServiceProvider
      * @var [type]
      */
     protected $policies = [
-        Content::class => ContentPolicy::class,
+        Webpage::class => ContentPolicy::class,
     ];
 
     /**
@@ -64,27 +65,26 @@ class WebpageContentServiceProvider extends AuthServiceProvider
         Route::group([
                 'namespace' => \Baytek\Laravel\Content\Types\Webpage::class,
                 'middleware' => ['web'],
-            ], function ($router)
-            {
+            ], function ($router) {
                 // Add the default route to the routes list for this provider
                 $router->resource('admin/webpage', 'WebpageController');
                 $router->get('{url}', 'WebpageController@show')->where('url', '.*?');
 
-                $router->bind('url', function($slug)
-                {
+                $router->bind('url', function ($slug) {
                     $webpage = null;
+
+                    // Get the cache route id where slug
                     if($id = collect(Cache::get('baytek.laravel.webpage.urls', []))->get($slug, false)) {
                         $webpage = Webpage::find($id);
                     }
                     // Try to load the content via another method
                     else {
                         // Try to find the page with the slug, this should also check its parents and should also split on /
-
                         $segments = collect(explode('/', $slug));
                         $webpages = Webpage::where('contents.key', $segments->last())->ofContentType('webpage')->get();
 
-                        $webpages->each(function($page) use ($segments, &$webpage)
-                        {
+                        // Here I try to see if the url parents is the same as the url segments
+                        $webpages->each(function ($page) use ($segments, &$webpage) {
                             // Get a list of the parents of current object
                             $pages = collect($page->getParents());
 
@@ -93,6 +93,7 @@ class WebpageContentServiceProvider extends AuthServiceProvider
                                 // Set the webpage to the match
                                 $webpage = $page;
 
+                                // Cache the URL
                                 $webpage->cacheUrl();
 
                                 // Stop Processing
@@ -118,6 +119,6 @@ class WebpageContentServiceProvider extends AuthServiceProvider
      */
     public function register()
     {
-        $this->app->register(\Baytek\Laravel\Content\ContentServiceProvider::class);
+        $this->app->register(ContentServiceProvider::class);
     }
 }

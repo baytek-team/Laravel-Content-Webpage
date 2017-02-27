@@ -27,7 +27,7 @@
 		<thead>
 			<tr>
 				<th class="center aligned collapsing">ID</th>
-				<th class="center aligned collapsing">Key</th>
+				<!-- <th class="center aligned collapsing">Key</th> -->
 				<th>Title</th>
 				<th class="center aligned collapsing">Actions</th>
 			</tr>
@@ -36,12 +36,12 @@
 			@foreach($webpages as $webpage)
 				<tr>
 					<td class="collapsing">{{ $webpage->id }}</td>
-					<td class="collapsing">{{ $webpage->key }}</td>
+					<!-- <td class="collapsing">{{ $webpage->key }}</td> -->
 					<td>{{ $webpage->title }}</td>
 					<td class="right aligned collapsing">
-						<a href="{{ url($webpage->getUrl()) }}" class="ui labeled icon button primary"><i class="world icon"></i>Visit</a>
-						<a href="{{ route('webpage.edit', $webpage->id) }}" class="ui labeled icon button primary"><i class="pencil icon"></i>Edit</a>
-						<a href="{{ route('webpage.destroy', $webpage->id) }}" class="ui labeled icon button negative"><i class="delete icon"></i>Delete</a>
+						<a href="{{ url($webpage->getUrl()) }}" class="ui labeled icon basic button positive"><i class="world icon"></i>Visit</a>
+						<a href="{{ route('webpage.edit', $webpage->id) }}" class="ui labeled icon basic button primary"><i class="pencil icon"></i>Edit</a>
+						<a href="{{ route('webpage.destroy', $webpage->id) }}" class="ui labeled icon basic button negative"><i class="delete icon"></i>Delete</a>
 					</td>
 				</tr>
 			@endforeach

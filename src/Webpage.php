@@ -57,8 +57,5 @@ class Webpage extends Content
     	else {
     		return $urls[$this->id];
     	}
-
-
-
     }
 }
