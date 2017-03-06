@@ -6,7 +6,7 @@ use Baytek\Laravel\Users\User;
 use Baytek\Laravel\Content\Types\Webpage\Webpage;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class ContentPolicy
+class WebpagePolicy
 {
     use HandlesAuthorization;
 
@@ -19,7 +19,7 @@ class ContentPolicy
     public function before(User $user)
     {
         //
-        return true;
+        return false;
     }
 
     /**
@@ -32,7 +32,7 @@ class ContentPolicy
     public function view(User $user, Webpage $webpage)
     {
         //
-        return true;
+        return false;
     }
 
     /**
@@ -44,7 +44,7 @@ class ContentPolicy
     public function create(User $user)
     {
         //
-        return true;
+        return false;
     }
 
     /**
@@ -57,7 +57,7 @@ class ContentPolicy
     public function update(User $user, Webpage $webpage)
     {
         //
-        return true;
+        return false;
     }
 
     /**
@@ -70,6 +70,6 @@ class ContentPolicy
     public function delete(User $user, Webpage $webpage)
     {
         //
-        return true;
+        return false;
     }
 }
