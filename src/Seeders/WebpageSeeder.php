@@ -1,5 +1,5 @@
 <?php
-namespace Baytek\Laravel\Content\Types\Webpage\Seeds;
+namespace Baytek\Laravel\Content\Types\Webpage\Seeders;
 
 use Baytek\Laravel\Content\Seeder;
 

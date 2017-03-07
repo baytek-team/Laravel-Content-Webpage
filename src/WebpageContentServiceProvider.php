@@ -4,9 +4,10 @@ namespace Baytek\Laravel\Content\Types\Webpage;
 
 use Baytek\Laravel\Content\ContentServiceProvider;
 use Baytek\Laravel\Content\Models\Content;
+use Baytek\Laravel\Content\Types\Webpage\Policies\WebpagePolicy;
 use Baytek\Laravel\Content\Types\Webpage\Settings\WebpageSettings;
 use Baytek\Laravel\Content\Types\Webpage\Webpage;
-use Baytek\Laravel\Content\Types\Webpage\Policies\WebpagePolicy;
+use Baytek\Laravel\Content\Types\Webpage\WebpageInstaller;
 use Baytek\Laravel\Settings\Settable;
 use Baytek\Laravel\Settings\SettingsProvider;
 
@@ -60,12 +61,17 @@ class WebpageContentServiceProvider extends AuthServiceProvider
             __DIR__.'/../resources/Views' => resource_path('views/vendor/webpage'),
         ]);
 
-        $this->bootArtisanInstallCommand();
+        (new WebpageInstaller)->installCommand();
 
         Broadcast::channel('content.{contentId}', function ($user, $contentId) {
             return true;//$user->id === Content::findOrNew($contentId)->user_id;
         });
 
+        $this->bootRoutes();
+    }
+
+    public function bootRoutes()
+    {
         // Set local namespace and make sure the route bindings occur
         Route::group([
                 'namespace' => \Baytek\Laravel\Content\Types\Webpage::class,
@@ -117,70 +123,6 @@ class WebpageContentServiceProvider extends AuthServiceProvider
             });
     }
 
-    public function bootArtisanInstallCommand()
-    {
-        Artisan::command('install:webpage', function () {
-
-            // $pluginTables = [
-            //     env('DB_PREFIX', '').'contents',
-            //     env('DB_PREFIX', '').'content_metas',
-            //     env('DB_PREFIX', '').'content_histories',
-            //     env('DB_PREFIX', '').'content_relations',
-            // ];
-
-            $relaventRecords = [
-                'webpage',
-                'homepage',
-            ];
-
-            $this->info('Installing webpage content type package.');
-            $this->comment('Doing checks to see if migrations, seeding and publishing need to happen.');
-
-            if(app()->environment() === 'production') {
-                $this->error('You are in a production environment, aborting.');
-                exit();
-            }
-
-            // $databaseTables = collect(array_map('reset', DB::select('SHOW TABLES')));
-
-            // $this->line('');
-            // $this->line('Checking if migrations are required: ');
-
-            // if($databaseTables->intersect($pluginTables)->isEmpty()) {
-            //     $this->info('Yes! Running Migrations.');
-            //     Artisan::call('migrate');
-            //     // Artisan::call('migrate', ['--path' => __DIR__.'/../resources/Database/Migrations']);
-            // }
-            // else {
-            //     $this->comment('No! Skipping.');
-            // }
-
-            $this->line('');
-            $this->line('Checking if base data seeding is required: ');
-            $recordCount = Content::whereIn('key', $relaventRecords)->count();
-
-            if($recordCount === 0) {
-                $this->info('Yes! Running Seeder.');
-
-                (new \Baytek\Laravel\Content\Types\Webpage\Seeds\WebpageSeeder)->run();
-            }
-            else if($recordCount === count($relaventRecords)) {
-                $this->comment('No! Skipping.');
-            }
-            else {
-                $this->comment('Warning! Some of the records exist already, there may be an issue with your installation. Skipping.');
-            }
-
-            // if($this->confirm('Would your like to publish and/or overwrite publishable assets?')) {
-            //     $this->info('Publishing Assets.');
-            //     Artisan::call('vendor:publish', ['--tag' => 'views', '--provider' => Baytek\Laravel\Content\ContentServiceProvider::class]);
-            // }
-
-            $this->line('');
-            $this->info('Installation Complete.');
-
-        })->describe('Install the base system and seed the content tables');
-    }
 
     /**
      * Register the application services.
