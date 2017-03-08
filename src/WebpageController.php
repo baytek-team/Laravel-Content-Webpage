@@ -74,6 +74,8 @@ class WebpageController extends ContentController
      */
     public function store(Request $request)
     {
+
+
         $this->redirects = false;
 
         $request->merge(['key' => str_slug($request->title)]);
