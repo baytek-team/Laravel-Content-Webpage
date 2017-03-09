@@ -19,5 +19,8 @@
         "baytek/laravel-content": "dev-master",
         "baytek/laravel-settings": "dev-master"
     },
+    "post-install-cmd": [
+        "php artisan install:webpage"
+    ],
     "minimum-stability": "dev"
 }
