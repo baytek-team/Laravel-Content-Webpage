@@ -59,7 +59,7 @@ class WebpageContentServiceProvider extends AuthServiceProvider
         // Set the path to publish assets for users to extend
         $this->publishes([
             __DIR__.'/../resources/Views' => resource_path('views/vendor/webpage'),
-        ]);
+        ], 'views');
 
         (new WebpageInstaller)->installCommand();
 

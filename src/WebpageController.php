@@ -8,6 +8,7 @@ use Baytek\Laravel\Content\Models\Content;
 use Baytek\Laravel\Content\Models\ContentMeta;
 use Baytek\Laravel\Content\Models\ContentRelation;
 use Baytek\Laravel\Content\Types\Webpage\Webpage;
+use Baytek\Laravel\Settings\SettingsProvider;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -39,6 +40,15 @@ class WebpageController extends ContentController
 
 
     /**
+     * [__construct description]
+     * @param \Baytek\Laravel\Settings\SettingsProvider $config Create the config instance
+     */
+    public function __construct(\Baytek\Laravel\Settings\SettingsProvider $config)
+    {
+        parent::__construct();
+    }
+
+    /**
      * Show the index of all content with content type 'webpage'
      *
      * @return \Illuminate\Http\Response
@@ -46,7 +56,7 @@ class WebpageController extends ContentController
     public function index()
     {
         $this->viewData['index'] = [
-            'webpages' => Webpage::childrenOf('webpage')->paginate(100),
+            'webpages' => Webpage::ofType('webpage')->paginate(100),
         ];
 
         return parent::index();
@@ -60,7 +70,7 @@ class WebpageController extends ContentController
     public function create()
     {
         $this->viewData['create'] = [
-            'parents' => Webpage::childrenOf('webpage')->get(),
+            'parents' => Webpage::ofType('webpage')->get(),
         ];
 
         return parent::create();
@@ -74,8 +84,6 @@ class WebpageController extends ContentController
      */
     public function store(Request $request)
     {
-
-
         $this->redirects = false;
 
         $request->merge(['key' => str_slug($request->title)]);
@@ -97,7 +105,7 @@ class WebpageController extends ContentController
     public function edit($id)
     {
         $this->viewData['edit'] = [
-            'parents' => Webpage::childrenOf('webpage')->get(),
+            'parents' => Webpage::ofType('webpage')->get(),
         ];
 
         return parent::edit($id);
