@@ -1,8 +1,7 @@
 <?php
+namespace Baytek\Laravel\Content\Types\Webpage\Commands;
 
-namespace Baytek\Laravel\Content\Types\Webpage;
-
-use Baytek\Laravel\Content\Installer;
+use Baytek\Laravel\Content\Commands\Installer;
 use Baytek\Laravel\Content\Types\Webpage\Seeders\WebpageSeeder;
 use Baytek\Laravel\Content\Types\Webpage\Webpage;
 use Baytek\Laravel\Content\Types\Webpage\WebpageContentServiceProvider;

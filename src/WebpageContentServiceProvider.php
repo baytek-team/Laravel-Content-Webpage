@@ -34,6 +34,14 @@ class WebpageContentServiceProvider extends AuthServiceProvider
     ];
 
     /**
+     * List of artisan commands provided by this package
+     * @var Array
+     */
+    protected $commands = [
+        Commands\WebpageInstaller::class,
+    ];
+
+    /**
      * List of settings classes required by this package
      * @var Array
      */
@@ -60,8 +68,6 @@ class WebpageContentServiceProvider extends AuthServiceProvider
         $this->publishes([
             __DIR__.'/../resources/Views' => resource_path('views/vendor/webpage'),
         ], 'views');
-
-        (new WebpageInstaller)->installCommand();
 
         Broadcast::channel('content.{contentId}', function ($user, $contentId) {
             return true;//$user->id === Content::findOrNew($contentId)->user_id;
@@ -133,6 +139,9 @@ class WebpageContentServiceProvider extends AuthServiceProvider
      */
     public function register()
     {
+        // Register commands
+        $this->commands($this->commands);
+
         $this->app->register(ContentServiceProvider::class);
     }
 }
