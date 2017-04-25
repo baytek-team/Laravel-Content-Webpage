@@ -16,7 +16,7 @@
     },
     "require": {
         "php": ">=5.6.4",
-        "baytek/laravel-content": "dev-master",
+        "baytek/laravel-content": "1.0.*",
         "baytek/laravel-settings": "dev-master"
     },
     "post-install-cmd": [
