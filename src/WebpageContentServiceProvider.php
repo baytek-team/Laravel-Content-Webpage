@@ -79,7 +79,7 @@ class WebpageContentServiceProvider extends AuthServiceProvider
     public function bootRoutes()
     {
         // Set local namespace and make sure the route bindings occur
-        if(false) { // We should have a check if we need a wildcard route, and insert after all other routes. Must be last route.
+        // if(false) { // We should have a check if we need a wildcard route, and insert after all other routes. Must be last route.
             Route::group([
                     'namespace' => \Baytek\Laravel\Content\Types\Webpage::class,
                     'middleware' => ['web'],
@@ -128,7 +128,7 @@ class WebpageContentServiceProvider extends AuthServiceProvider
                         return $webpage;
                     });
                 });
-        }
+        // }
     }
 
 

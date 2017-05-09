@@ -59,7 +59,7 @@ class WebpageController extends ContentController
             'webpages' => Webpage::ofType('webpage')->paginate(100),
         ];
 
-        return parent::index();
+        return parent::contentIndex();
     }
 
     /**
@@ -73,7 +73,7 @@ class WebpageController extends ContentController
             'parents' => Webpage::ofType('webpage')->get(),
         ];
 
-        return parent::create();
+        return parent::contentCreate();
     }
 
     /**
@@ -88,7 +88,7 @@ class WebpageController extends ContentController
 
         $request->merge(['key' => str_slug($request->title)]);
 
-        $webpage = parent::store($request);
+        $webpage = parent::contentStore($request);
 
         $webpage->saveRelation('parent-id', $request->parent_id);
 
@@ -108,9 +108,18 @@ class WebpageController extends ContentController
             'parents' => Webpage::ofType('webpage')->get(),
         ];
 
-        return parent::edit($id);
+        return parent::contentEdit($id);
     }
 
+    /**
+     * Show the webpage
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        return parent::contentShow($id);
+    }
 
     /**
      * Show the form for creating a new webpage.
@@ -123,7 +132,7 @@ class WebpageController extends ContentController
 
         // $request->merge(['key' => str_slug($request->title)]);
 
-        $webpage = parent::update($request, $id);
+        $webpage = parent::contentUpdate($request, $id);
 
         // $webpage->saveRelation('parent-id', $request->parent_id);
 
@@ -131,6 +140,5 @@ class WebpageController extends ContentController
 
         return redirect(route($this->names['singular'].'.show', $webpage));
     }
-
 
 }
