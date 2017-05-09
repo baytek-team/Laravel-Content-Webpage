@@ -69,6 +69,10 @@ class WebpageContentServiceProvider extends AuthServiceProvider
             __DIR__.'/../resources/Views' => resource_path('views/vendor/webpage'),
         ], 'views');
 
+        $this->publishes([
+            __DIR__.'/../config/webpage.php' => config_path('webpage.php'),
+        ], 'config');
+
         Broadcast::channel('content.{contentId}', function ($user, $contentId) {
             return true;//$user->id === Content::findOrNew($contentId)->user_id;
         });
@@ -80,6 +84,7 @@ class WebpageContentServiceProvider extends AuthServiceProvider
     {
         // Set local namespace and make sure the route bindings occur
         // if(false) { // We should have a check if we need a wildcard route, and insert after all other routes. Must be last route.
+        if(config('website.enabled')) {
             Route::group([
                     'namespace' => \Baytek\Laravel\Content\Types\Webpage::class,
                     'middleware' => ['web'],
@@ -128,7 +133,7 @@ class WebpageContentServiceProvider extends AuthServiceProvider
                         return $webpage;
                     });
                 });
-        // }
+        }
     }
 
 
