@@ -84,7 +84,7 @@ class WebpageContentServiceProvider extends AuthServiceProvider
     {
         // Set local namespace and make sure the route bindings occur
         // if(false) { // We should have a check if we need a wildcard route, and insert after all other routes. Must be last route.
-        if(config('website.enabled')) {
+        if(config('webpage.enabled')) {
             Route::group([
                     'namespace' => \Baytek\Laravel\Content\Types\Webpage::class,
                     'middleware' => ['web'],
