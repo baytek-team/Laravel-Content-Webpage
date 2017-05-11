@@ -46,7 +46,7 @@ class WebpageContentServiceProvider extends AuthServiceProvider
      * @var Array
      */
     protected $settings = [
-        // 'webpage' => WebpageSettings::class
+        'webpage' => WebpageSettings::class
     ];
 
     /**

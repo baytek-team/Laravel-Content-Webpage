@@ -1,19 +1,16 @@
 @extends('Content::admin')
+
+@section('page.head.header')
+    <h1 class="ui header">
+        <i class="globe icon"></i>
+        <div class="content">
+            Webpage Management
+            <div class="sub header">Create a webpage.</div>
+        </div>
+    </h1>
+@endsection
+
 @section('content')
-
-<div class="ui two column stackable grid">
-    <div class="ten wide column">
-        <h1 class="ui header">
-            <i class="browser icon"></i>
-            <div class="content">
-                Webpage Management
-                <div class="sub header">Create a webpage.</div>
-            </div>
-        </h1>
-    </div>
-</div>
-
-<div class="ui hidden divider"></div>
 
 <div class="flex-center position-ref full-height">
     <div class="content">

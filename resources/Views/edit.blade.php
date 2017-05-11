@@ -6,7 +6,7 @@
         <h1 class="ui header">
             <i class="browser icon"></i>
             <div class="content">
-                Content Management
+                Webpage Management
                 <div class="sub header">Manage the content of the application.</div>
             </div>
         </h1>

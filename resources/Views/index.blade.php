@@ -39,9 +39,11 @@
 					<!-- <td class="collapsing">{{ $webpage->key }}</td> -->
 					<td>{{ $webpage->title }}</td>
 					<td class="right aligned collapsing">
-						<a href="{{ url($webpage->getUrl()) }}" class="ui labeled icon basic button positive"><i class="world icon"></i>Visit</a>
-						<a href="{{ route('webpage.edit', $webpage->id) }}" class="ui labeled icon basic button primary"><i class="pencil icon"></i>Edit</a>
-						<a href="{{ route('webpage.destroy', $webpage->id) }}" class="ui labeled icon basic button negative"><i class="delete icon"></i>Delete</a>
+						<div class="ui compact text menu">
+							<a href="{{ url($webpage->getUrl()) }}" class="item"><i class="world icon"></i>Visit</a>
+							<a href="{{ route('webpage.edit', $webpage->id) }}" class="item"><i class="pencil icon"></i>Edit</a>
+							<a href="{{ route('webpage.destroy', $webpage->id) }}" class="item"><i class="delete icon"></i>Delete</a>
+						</div>
 					</td>
 				</tr>
 			@endforeach
