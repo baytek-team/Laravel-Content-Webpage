@@ -1,32 +1,16 @@
 @extends('Content::admin')
+
+@section('page.head.header')
+    <h1 class="ui header">
+        <i class="world icon"></i>
+        <div class="content">
+            Webpage Management
+            <div class="sub header">Manage the webpage content type.</div>
+        </div>
+    </h1>
+@endsection
+
 @section('content')
-
-<div class="ui two column stackable grid">
-    <div class="ten wide column">
-        <h1 class="ui header">
-            <i class="browser icon"></i>
-            <div class="content">
-                Webpage Management
-                <div class="sub header">Manage the content of the application.</div>
-            </div>
-        </h1>
-    </div>
-    <div class="six wide column right aligned">
-        {{-- !! Menu::form(
-            ['Delete User' => [
-                'action' =>  'Admin\UserController@destroy',
-                'method' => 'DELETE',
-                'class' => 'ui negative button',
-                'prepend' => '<i class="delete icon"></i>',
-                'confirm' => 'Are you sure you want to delete user: '.$user->first_name.' '.$user->last_name.'?',
-            ]],
-            $user)
-        !! --}}
-    </div>
-</div>
-
-<div class="ui hidden divider"></div>
-
 <div id="registration" class="ui container">
     <div class="ui hidden divider"></div>
     <form action="{{ route('webpage.update', $webpage->id) }}" method="POST" class="ui form">

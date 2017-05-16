@@ -14,7 +14,7 @@
 </div>
 <div class="field{{ $errors->has('content') ? ' error' : '' }}">
 	<label for="content">Content</label>
-	<textarea id="content" name="content" placeholder="Content">{{ old('content', $webpage->content) }}</textarea>
+	<textarea id="content" name="content" class="editor" placeholder="Content">{{ old('content', $webpage->content) }}</textarea>
 </div>
 
 @section('head')

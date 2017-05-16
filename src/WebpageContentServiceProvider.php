@@ -91,7 +91,7 @@ class WebpageContentServiceProvider extends AuthServiceProvider
                 ], function ($router) {
                     // Add the default route to the routes list for this provider
                     $router->resource('admin/webpage', 'WebpageController');
-                    $router->get('{url}', 'WebpageController@show')->where('url', '.*?');
+                    $router->get('{url}', 'WebpageController@render')->where('url', '.*?');
 
                     $router->bind('url', function ($slug) {
                         $webpage = null;

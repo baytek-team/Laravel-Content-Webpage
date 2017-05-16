@@ -26,18 +26,18 @@
 	<table class="ui selectable table">
 		<thead>
 			<tr>
-				<th class="center aligned collapsing">ID</th>
-				<!-- <th class="center aligned collapsing">Key</th> -->
 				<th>Title</th>
 				<th class="center aligned collapsing">Actions</th>
 			</tr>
 		</thead>
 		<tbody>
-			@foreach($webpages as $webpage)
+			@php
+			    $relations = \Cache::get('content.cache.relations')->where('relation_type_id', 4);
+			    $loopies = \Baytek\Laravel\Content\Models\Content::loopying($webpages, $relations, $webpages);
+			@endphp
+			@foreach($loopies as $webpage)
 				<tr>
-					<td class="collapsing">{{ $webpage->id }}</td>
-					<!-- <td class="collapsing">{{ $webpage->key }}</td> -->
-					<td>{{ $webpage->title }}</td>
+					<td>{!! str_repeat('<i class="minus icon"></i>', $webpage->depth) !!} {{ $webpage->title }}</td>
 					<td class="right aligned collapsing">
 						<div class="ui compact text menu">
 							<a href="{{ url($webpage->getUrl()) }}" class="item"><i class="world icon"></i>Visit</a>

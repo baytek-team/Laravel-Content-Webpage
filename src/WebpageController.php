@@ -122,6 +122,20 @@ class WebpageController extends ContentController
     }
 
     /**
+     * Show the webpage
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function render($id)
+    {
+        $this->viewData['show'] = [
+            'layout' => 'marketing'
+        ];
+
+        return parent::contentShow($id);
+    }
+
+    /**
      * Show the form for creating a new webpage.
      *
      * @return \Illuminate\Http\Response

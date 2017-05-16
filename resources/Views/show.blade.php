@@ -1,4 +1,9 @@
-@extends('Content::admin')
+@php
+$layout = isset($layout) ? "layouts.$layout" : 'Content::admin';
+@endphp
+
+@extends($layout)
+
 @section('content')
 <div class="webpage" style="background: {{ config('cms.content.webpage.background') }}">
 	<h1 style="font-size: 48px;" v-html="title">
