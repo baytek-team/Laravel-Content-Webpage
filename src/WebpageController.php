@@ -15,7 +15,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 
-
+use Cache;
 use View;
 
 class WebpageController extends ContentController
@@ -55,8 +55,11 @@ class WebpageController extends ContentController
      */
     public function index()
     {
+        $webpages = Webpage::ofType('webpage')->get();
+        $relations = Cache::get('content.cache.relations')->where('relation_type_id', 4);
+
         $this->viewData['index'] = [
-            'webpages' => Webpage::ofType('webpage')->paginate(100),
+            'webpages' => Content::hierarchy($webpages),
         ];
 
         return parent::contentIndex();
@@ -126,8 +129,12 @@ class WebpageController extends ContentController
      *
      * @return \Illuminate\Http\Response
      */
-    public function render($id)
+    public function render($id = null)
     {
+        if(is_null($id)) {
+            abort(404);
+        }
+
         $this->viewData['show'] = [
             'layout' => 'marketing'
         ];

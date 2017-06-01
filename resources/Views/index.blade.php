@@ -13,7 +13,7 @@
 @section('page.head.menu')
     <div class="ui secondary menu">
     	<div class="right item">
-	        <a class="ui labeled icon button" href="{{ route('webpage.create') }}">
+	        <a class="ui labeled icon primary button" href="{{ route('webpage.create') }}">
 	            <i class="world icon"></i>Add Webpage
 	        </a>
 	    </div>
@@ -23,7 +23,7 @@
 @section('content')
 <div class="webpage">
 
-	<table class="ui selectable table">
+	<table class="ui selectable compact table">
 		<thead>
 			<tr>
 				<th>Title</th>
@@ -31,11 +31,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			@php
-			    $relations = \Cache::get('content.cache.relations')->where('relation_type_id', 4);
-			    $loopies = \Baytek\Laravel\Content\Models\Content::loopying($webpages, $relations, $webpages);
-			@endphp
-			@foreach($loopies as $webpage)
+			@foreach($webpages as $webpage)
 				<tr>
 					<td>{!! str_repeat('<i class="minus icon"></i>', $webpage->depth) !!} {{ $webpage->title }}</td>
 					<td class="right aligned collapsing">
@@ -51,6 +47,6 @@
 	</table>
 </div>
 
-{{ $webpages->links() }}
+{{ $webpages->links('pagination.default') }}
 
 @endsection

@@ -108,6 +108,7 @@ class WebpageContentServiceProvider extends AuthServiceProvider
 
                             // Here I try to see if the url parents is the same as the url segments
                             $webpages->each(function ($page) use ($segments, &$webpage) {
+
                                 // Get a list of the parents of current object
                                 $pages = collect($page->getParents());
 
@@ -127,7 +128,7 @@ class WebpageContentServiceProvider extends AuthServiceProvider
 
                         // Show the 404 page if not found
                         if(is_null($webpage)) {
-                            abort(404);
+                            //abort(404);
                         }
 
                         return $webpage;
