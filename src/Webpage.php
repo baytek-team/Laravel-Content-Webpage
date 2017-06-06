@@ -2,6 +2,7 @@
 
 namespace Baytek\Laravel\Content\Types\Webpage;
 
+use Baytek\Laravel\Content\Types\Webpage\Scopes\WebpageScope;
 use Baytek\Laravel\Content\Models\Content;
 
 use Cache;
@@ -23,6 +24,17 @@ class Webpage extends Content
 	public $relationships = [
 		'content-type' => 'webpage'
 	];
+
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        static::addGlobalScope(new WebpageScope);
+        parent::boot();
+    }
 
 	public function getRouteKeyName()
 	{
