@@ -55,7 +55,7 @@ class WebpageController extends ContentController
      */
     public function index()
     {
-        $webpages = Webpage::ofType('webpage')->get();
+        $webpages = Webpage::all();
         $relations = Cache::get('content.cache.relations')->where('relation_type_id', 4);
 
         $this->viewData['index'] = [
@@ -73,7 +73,7 @@ class WebpageController extends ContentController
     public function create()
     {
         $this->viewData['create'] = [
-            'parents' => Webpage::ofType('webpage')->get(),
+            'parents' => Webpage::all(),
         ];
 
         return parent::contentCreate();
@@ -108,7 +108,7 @@ class WebpageController extends ContentController
     public function edit($id)
     {
         $this->viewData['edit'] = [
-            'parents' => Webpage::ofType('webpage')->get(),
+            'parents' => Webpage::all(),
         ];
 
         return parent::contentEdit($id);
