@@ -1,6 +1,7 @@
 <?php
 namespace Baytek\Laravel\Content\Types\Webpage\Commands;
 
+use Baytek\Laravel\Content\Models\Content;
 use Baytek\Laravel\Content\Commands\Installer;
 use Baytek\Laravel\Content\Types\Webpage\Seeders\WebpageSeeder;
 use Baytek\Laravel\Content\Types\Webpage\Webpage;
@@ -44,7 +45,7 @@ class WebpageInstaller extends Installer
             'homepage',
         ];
 
-        return (new $this->model)->whereIn('key', $relevantRecords)->count() === 0;
+        return Content::whereIn('key', $relevantRecords)->count() === 0;
     }
 
     public function shouldProtect()

@@ -9,7 +9,7 @@ class WebpageSeeder extends Seeder
         [
             'key' => 'webpage',
             'title' => 'Webpage',
-            'content' => 'Webpage Content Type',
+            'content' => 'Baytek\Laravel\Content\Types\Webpage\Webpage',
             'relations' => [
                 ['parent-id', 'content-type']
             ]
