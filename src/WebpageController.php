@@ -97,6 +97,8 @@ class WebpageController extends ContentController
 
         $webpage->cacheUrl();
 
+        $webpage->onBit(Webpage::APPROVED)->update();
+
         return redirect(route($this->names['singular'].'.show', $webpage));
     }
 
@@ -160,6 +162,29 @@ class WebpageController extends ContentController
         $webpage->cacheUrl();
 
         return redirect(route($this->names['singular'].'.show', $webpage));
+    }
+
+    /**
+     * Recursively Destroy using status bits
+     */
+    public function destroy($id)
+    {
+        $webpage = $this->bound($id);
+
+        $this->getChildrenAndDelete($webpage);
+    }
+
+    public function getChildrenAndDelete($item) {
+
+        $children = Content::childrenOf($item->id)->get();
+
+        if ($children->isNotEmpty()) {
+            foreach ($children as $item) {
+                $this->getChildrenAndDelete($item);
+            }
+        }
+
+        $item->offBit(Content::APPROVED)->onBit(Content::DELETED)->update();
     }
 
 }
