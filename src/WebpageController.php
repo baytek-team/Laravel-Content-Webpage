@@ -108,8 +108,12 @@ class WebpageController extends ContentController
      */
     public function edit($id)
     {
+        $webpage = $this->bound($id);
+        $parent = $webpage->getRelationship('parent-id');
+
         $this->viewData['edit'] = [
             'parents' => Webpage::all(),
+            'parent_id' => ($parent) ? $parent->id : null,
         ];
 
         return parent::contentEdit($id);
@@ -156,8 +160,8 @@ class WebpageController extends ContentController
 
         $webpage = parent::contentUpdate($request, $id);
         $webpage->saveMetadata('external_url', $request->external_url);
-
-        // $webpage->saveRelation('parent-id', $request->parent_id);
+        $webpage->removeRelationByType('parent-id');
+        $webpage->saveRelation('parent-id', $request->parent_id);
 
         $webpage->cacheUrl();
 

@@ -17,9 +17,9 @@
 	<textarea id="content" name="content" class="editor" placeholder="Content">{{ old('content', $webpage->content) }}</textarea>
 </div>
 
-<div class="field{{ $errors->has('url') ? ' error' : '' }}">
+<div class="field{{ $errors->has('external_url') ? ' error' : '' }}">
 	<label for="external_url">External URL</label>
-	<input type="text" id="external_url" name="external_url" placeholder="http://" value="{{ old('external_url', $webpage->external_url) }}">
+	<input type="text" id="external_url" name="external_url" placeholder="http://" value="{{ old('external_url', $webpage->getMeta('external_url')) }}">
 </div>
 
 @section('head')
