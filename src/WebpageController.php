@@ -60,8 +60,9 @@ class WebpageController extends ContentController
         $webpages = Webpage::all();
         $relations = Cache::get('content.cache.relations')->where('relation_type_id', 4);
 
+        $per_page = config('cms.content.webpage.per_page') ?: 20;
         $this->viewData['index'] = [
-            'webpages' => Content::hierarchy($webpages),
+            'webpages' => Content::hierarchy($webpages, true, $per_page),
         ];
 
         return parent::contentIndex();
