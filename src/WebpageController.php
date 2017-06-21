@@ -92,9 +92,8 @@ class WebpageController extends ContentController
         $request->merge(['key' => str_slug($request->title)]);
 
         $webpage = parent::contentStore($request);
-
         $webpage->saveRelation('parent-id', $request->parent_id);
-
+        $webpage->saveMetadata('external_url', $request->external_url);
         $webpage->cacheUrl();
 
         $webpage->onBit(Webpage::APPROVED)->update();
@@ -156,6 +155,7 @@ class WebpageController extends ContentController
         // $request->merge(['key' => str_slug($request->title)]);
 
         $webpage = parent::contentUpdate($request, $id);
+        $webpage->saveMetadata('external_url', $request->external_url);
 
         // $webpage->saveRelation('parent-id', $request->parent_id);
 

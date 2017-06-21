@@ -17,6 +17,11 @@
 	<textarea id="content" name="content" class="editor" placeholder="Content">{{ old('content', $webpage->content) }}</textarea>
 </div>
 
+<div class="field{{ $errors->has('url') ? ' error' : '' }}">
+	<label for="external_url">External URL</label>
+	<input type="text" id="external_url" name="external_url" placeholder="http://" value="{{ old('external_url', $webpage->external_url) }}">
+</div>
+
 @section('head')
 {{-- <link rel="stylesheet" type="text/css" href="/css/trix.css"> --}}
 {{-- <script type="text/javascript" src="/js/trix.js"></script> --}}
