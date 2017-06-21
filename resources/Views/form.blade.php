@@ -3,7 +3,7 @@
 	<select name="parent_id" class="ui dropdown">
 		<option value="">No Parent</option>
 		@foreach($parents as $item)
-		<option value="{{ $item->id }}"@if($webpage->id == $item->id) selected="selected"@endif>{{ $item->title }}</option>
+		<option value="{{ $item->id }}"@if(isset($parent_id) && $parent_id == $item->id) selected="selected"@endif>{{ $item->title }}</option>
 		@endforeach
 	</select>
 </div>
