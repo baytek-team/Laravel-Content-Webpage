@@ -15,6 +15,8 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 
+use Baytek\Laravel\Content\Types\Webpage\Requests\WebpageRequest;
+
 use Cache;
 use View;
 
@@ -85,7 +87,7 @@ class WebpageController extends ContentController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(WebpageRequest $request)
     {
         $this->redirects = false;
 
@@ -152,7 +154,7 @@ class WebpageController extends ContentController
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(WebpageRequest $request, $id)
     {
         $this->redirects = false;
 
