@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 
 use Cache;
 use View;
+use Validator;
 
 class WebpageController extends ContentController
 {
@@ -46,6 +47,19 @@ class WebpageController extends ContentController
     public function __construct(\Baytek\Laravel\Settings\SettingsProvider $config)
     {
         parent::__construct();
+    }
+
+    /**
+     * Get a validator for an incoming webpage creation request.
+     *
+     * @param  array  $data
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    protected function validator(array $data)
+    {
+        return Validator::make($data, [
+            'title' => 'required|max:255|unique_key:contents,parent_id',
+        ]);
     }
 
     /**
@@ -87,6 +101,16 @@ class WebpageController extends ContentController
      */
     public function store(Request $request)
     {
+        //Validate the request
+        $validator = $this->validator($request->all());
+
+        if($validator->fails())
+        {
+            return back()
+               ->withErrors($validator)
+               ->withInput();
+        }
+
         $this->redirects = false;
 
         $request->merge(['key' => str_slug($request->title)]);
