@@ -136,8 +136,9 @@ class WebpageController extends ContentController
         $webpage = $this->bound($id);
         $parent = $webpage->getRelationship('parent-id');
 
+        $webpages = Webpage::all();
         $this->viewData['edit'] = [
-            'parents' => Webpage::all(),
+            'parents' => Content::hierarchy($webpages, false),
             'parent_id' => ($parent) ? $parent->id : null,
         ];
 
