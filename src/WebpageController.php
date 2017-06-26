@@ -69,7 +69,7 @@ class WebpageController extends ContentController
      */
     public function index()
     {
-        $webpages = Webpage::withStatus(Webpage::APPROVED)->get();
+        $webpages = Webpage::all();
         $relations = Cache::get('content.cache.relations')->where('relation_type_id', 4);
 
         $per_page = config('cms.content.webpage.per_page') ?: 20;
@@ -87,9 +87,8 @@ class WebpageController extends ContentController
      */
     public function create()
     {
-        $webpages = Webpage::withStatus(Webpage::APPROVED)->get();
         $this->viewData['create'] = [
-            'parents' => Content::hierarchy($webpages, false),
+            'parents' => Webpage::all(),
         ];
 
         return parent::contentCreate();
@@ -124,8 +123,7 @@ class WebpageController extends ContentController
 
         $webpage->onBit(Webpage::APPROVED)->update();
 
-        return $this->index();
-        //return redirect(route($this->names['singular'].'.show', $webpage));
+        return redirect(route($this->names['singular'].'.show', $webpage));
     }
 
     /**
@@ -138,7 +136,7 @@ class WebpageController extends ContentController
         $webpage = $this->bound($id);
         $parent = $webpage->getRelationship('parent-id');
 
-        $webpages = Webpage::withStatus(Webpage::APPROVED)->get();
+        $webpages = Webpage::all();
         $this->viewData['edit'] = [
             'parents' => Content::hierarchy($webpages, false),
             'parent_id' => ($parent) ? $parent->id : null,
@@ -193,8 +191,7 @@ class WebpageController extends ContentController
 
         $webpage->cacheUrl();
 
-        return $this->index();
-        //return redirect(route($this->names['singular'].'.show', $webpage));
+        return redirect(route($this->names['singular'].'.show', $webpage));
     }
 
     /**
@@ -205,8 +202,6 @@ class WebpageController extends ContentController
         $webpage = $this->bound($id);
 
         $this->getChildrenAndDelete($webpage);
-
-        return $this->index();
     }
 
     public function getChildrenAndDelete($item) {
