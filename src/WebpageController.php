@@ -120,7 +120,7 @@ class WebpageController extends ContentController
         $request->merge(['key' => str_slug($request->title)]);
 
         $webpage = parent::contentStore($request);
-        $webpage->saveRelation('parent-id', $request->parent_id);
+        $webpage->saveRelation('parent-id', ($request->parent_id) ?: (new Content)->getContentByKey('webpage')->id);
         $webpage->saveMetadata('external_url', $request->external_url);
         $webpage->cacheUrl();
 
@@ -128,7 +128,7 @@ class WebpageController extends ContentController
 
         event(new ContentEvent($webpage));
 
-        return $this->index();
+        return redirect(route($this->names['singular'].'.index'));
         //return redirect(route($this->names['singular'].'.show', $webpage));
     }
 
@@ -193,12 +193,12 @@ class WebpageController extends ContentController
         $webpage = parent::contentUpdate($request, $id);
         $webpage->saveMetadata('external_url', $request->external_url);
         $webpage->removeRelationByType('parent-id');
-        $webpage->saveRelation('parent-id', $request->parent_id);
+        $webpage->saveRelation('parent-id', ($request->parent_id) ?: (new Content)->getContentByKey('webpage')->id);
 
         $webpage->cacheUrl();
         event(new ContentEvent($webpage));
 
-        return $this->index();
+        return redirect(route($this->names['singular'].'.index'));
         //return redirect(route($this->names['singular'].'.show', $webpage));
     }
 
@@ -212,7 +212,7 @@ class WebpageController extends ContentController
         $this->getChildrenAndDelete($webpage);
         event(new ContentEvent($webpage));
 
-        return $this->index();
+        return redirect(route($this->names['singular'].'.index'));
     }
 
     public function getChildrenAndDelete($item) {
