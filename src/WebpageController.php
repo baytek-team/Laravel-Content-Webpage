@@ -3,6 +3,7 @@
 namespace Baytek\Laravel\Content\Types\Webpage;
 
 use Baytek\Laravel\Content\Controllers\ContentController;
+use Baytek\Laravel\Content\Events\ContentEvent;
 use Baytek\Laravel\Content\Controllers\Controller;
 use Baytek\Laravel\Content\Models\Content;
 use Baytek\Laravel\Content\Models\ContentMeta;
@@ -69,7 +70,8 @@ class WebpageController extends ContentController
      */
     public function index()
     {
-        $webpages = Webpage::withStatus(Webpage::APPROVED)->get();
+        $webpages = Webpage::withStatus('contents', Webpage::APPROVED)->get();
+
         $relations = Cache::get('content.cache.relations')->where('relation_type_id', 4);
 
         $per_page = config('cms.content.webpage.per_page') ?: 20;
@@ -87,7 +89,7 @@ class WebpageController extends ContentController
      */
     public function create()
     {
-        $webpages = Webpage::withStatus(Webpage::APPROVED)->get();
+        $webpages = Webpage::withStatus('contents', Webpage::APPROVED)->get();
         $this->viewData['create'] = [
             'parents' => Content::hierarchy($webpages, false),
         ];
@@ -124,6 +126,8 @@ class WebpageController extends ContentController
 
         $webpage->onBit(Webpage::APPROVED)->update();
 
+        event(new ContentEvent($webpage));
+
         return $this->index();
         //return redirect(route($this->names['singular'].'.show', $webpage));
     }
@@ -138,7 +142,7 @@ class WebpageController extends ContentController
         $webpage = $this->bound($id);
         $parent = $webpage->getRelationship('parent-id');
 
-        $webpages = Webpage::withStatus(Webpage::APPROVED)->get();
+        $webpages = Webpage::withStatus('contents', Webpage::APPROVED)->get();
         $this->viewData['edit'] = [
             'parents' => Content::hierarchy($webpages, false),
             'parent_id' => ($parent) ? $parent->id : null,
@@ -192,6 +196,7 @@ class WebpageController extends ContentController
         $webpage->saveRelation('parent-id', $request->parent_id);
 
         $webpage->cacheUrl();
+        event(new ContentEvent($webpage));
 
         return $this->index();
         //return redirect(route($this->names['singular'].'.show', $webpage));
@@ -205,6 +210,7 @@ class WebpageController extends ContentController
         $webpage = $this->bound($id);
 
         $this->getChildrenAndDelete($webpage);
+        event(new ContentEvent($webpage));
 
         return $this->index();
     }
