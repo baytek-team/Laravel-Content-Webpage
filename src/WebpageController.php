@@ -220,8 +220,8 @@ class WebpageController extends ContentController
         $children = Content::childrenOf($item->id)->get();
 
         if ($children->isNotEmpty()) {
-            foreach ($children as $item) {
-                $this->getChildrenAndDelete($item);
+            foreach ($children as $child) {
+                $this->getChildrenAndDelete($child);
             }
         }
 
