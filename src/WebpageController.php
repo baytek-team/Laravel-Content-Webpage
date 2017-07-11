@@ -76,6 +76,7 @@ class WebpageController extends ContentController
         $search  = (!is_null($request->search))? "%{$request->search}%" : '';
 
         $query = Content::childrenOfType(content('content-type/webpage')->id, 'webpage')
+            ->withRelationships()
             ->withStatus('r', Webpage::APPROVED);
         if ($search) {
             $query = $query->where('r.title', 'like', [$search])
@@ -173,6 +174,7 @@ class WebpageController extends ContentController
         $search  = (!is_null($request->search))? "%{$request->search}%" : '';
 
         $query = Content::childrenOfType($id, 'webpage')
+            ->withRelationships()
             ->withStatus('r', Webpage::APPROVED);
         if ($search) {
             $query = $query->where('r.title', 'like', [$search])
