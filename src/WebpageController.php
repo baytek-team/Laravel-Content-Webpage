@@ -68,15 +68,24 @@ class WebpageController extends ContentController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $webpages = Webpage::withStatus('contents', Webpage::APPROVED)->get();
-
-        $relations = Cache::get('content.cache.relations')->where('relation_type_id', 4);
-
         $per_page = config('cms.content.webpage.per_page') ?: 20;
+
+        // Get the search criteria
+        $search  = (!is_null($request->search))? "%{$request->search}%" : '';
+
+        $query = Content::childrenOfType(content('content-type/webpage')->id, 'webpage')
+            ->withStatus('r', Webpage::APPROVED);
+        if ($search) {
+            $query = $query->where('r.title', 'like', [$search])
+                ->orWhere('r.content', 'like', [$search]);
+        }
+        $webpages = $query->paginate($per_page);
+
         $this->viewData['index'] = [
-            'webpages' => Content::hierarchy($webpages, true, $per_page),
+            'webpages' => $webpages,
+            'parent' => false,
         ];
 
         return parent::contentIndex();
@@ -156,9 +165,30 @@ class WebpageController extends ContentController
      *
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        return parent::contentShow($id);
+        $per_page = config('cms.content.webpage.per_page') ?: 20;
+
+        // Get the search criteria
+        $search  = (!is_null($request->search))? "%{$request->search}%" : '';
+
+        $query = Content::childrenOfType($id, 'webpage')
+            ->withStatus('r', Webpage::APPROVED);
+        if ($search) {
+            $query = $query->where('r.title', 'like', [$search])
+                ->orWhere('r.content', 'like', [$search]);
+        }
+        $webpages = $query->paginate($per_page);
+
+        $webpage = $this->bound($id);
+        $parent = content($webpage->getRelationship('parent-id'));
+
+        $this->viewData['index'] = [
+            'webpages' => $webpages,
+            'parent' => $parent,
+        ];
+
+        return parent::contentIndex();
     }
 
     /**
