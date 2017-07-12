@@ -97,11 +97,13 @@ class WebpageController extends ContentController
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id = null)
     {
-        $webpages = Webpage::withStatus('contents', Webpage::APPROVED)->get();
+        // $webpages = Webpage::withStatus('contents', Webpage::APPROVED)->get();
         $this->viewData['create'] = [
-            'parents' => Content::hierarchy($webpages, false),
+            // 'parents' => Content::hierarchy($webpages, false),
+            'parents' => [],
+            'parent' => is_null($id) ? '' : Webpage::find($id),
         ];
         
         return parent::contentCreate();
@@ -152,10 +154,30 @@ class WebpageController extends ContentController
         $webpage = $this->bound($id);
         $parent = $webpage->getRelationship('parent-id');
 
+        $this->viewData['edit'] = [
+            'parents' => [],
+            'parent' => $parent,
+        ];
+
+        return parent::contentEdit($id);
+    }
+
+    /**
+     * Show the form for creating a new webpage.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function editParent($id)
+    {
+        $webpage = $this->bound($id);
+        $parent = $webpage->getRelationship('parent-id');
+
         $webpages = Webpage::withStatus('contents', Webpage::APPROVED)->get();
         $this->viewData['edit'] = [
             'parents' => Content::hierarchy($webpages, false),
-            'parent_id' => ($parent) ? $parent->id : null,
+            'parent' => $parent,
+            'disabledFlag' => false,
+            'disabledDepth' => 0,
         ];
 
         return parent::contentEdit($id);
@@ -188,6 +210,7 @@ class WebpageController extends ContentController
         $this->viewData['index'] = [
             'webpages' => $webpages,
             'parent' => $parent,
+            'webpage' => $webpage,
         ];
 
         return parent::contentIndex();

@@ -90,6 +90,10 @@ class WebpageContentServiceProvider extends AuthServiceProvider
                     'middleware' => ['web'],
                 ], function ($router) {
                     // Add the default route to the routes list for this provider
+                    $router->get('admin/webpage/{webpage}/edit/parent', 'WebpageController@editParent')->name('webpage.edit.parent');
+                    $router->get('admin/webpage/{webpage}/child', 'WebpageController@create')
+                        ->name('webpage.create.child');
+
                     $router->resource('admin/webpage', 'WebpageController');
                     $router->get('{url}', 'WebpageController@render')->where('url', '.*?');
 
