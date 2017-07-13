@@ -249,11 +249,40 @@ class WebpageController extends ContentController
 
         $webpage = parent::contentUpdate($request, $id);
 
-        $webpage->saveMetadata('external_url', $request->external_url);
-        $webpage->saveMetadata('path', $this->buildPathFromParents($webpage));
+        //See whether the parent needs to change and if so, update this path and descendents' path
+        $parent = $webpage->getRelationship('parent-id');
+        if ( ($parent && $parent->id != $request->parent_id) || ($request->parent_id && !$parent) ) {
+            $webpage->removeRelationByType('parent-id');
+            $webpage->saveRelation('parent-id', ($request->parent_id) ?: (new Content)->getContentByKey('webpage')->id);
 
-        $webpage->removeRelationByType('parent-id');
-        $webpage->saveRelation('parent-id', ($request->parent_id) ?: (new Content)->getContentByKey('webpage')->id);
+            //Update path
+            $webpage->saveMetadata('path', $this->buildPathFromParents($webpage));
+
+            //ten minutes
+            ini_set('max_execution_time', 600);
+
+            //Update descendents' path
+            Content::descendentsOfType($webpage->id, 'webpage')
+                ->each(function(&$self) {
+
+                    $parents = $self->getParents();
+                    $path = '';
+
+                    for ($i = count($parents) - 1; $i >= 0; $i--) {
+                        if ($parents[$i]->key != 'webpage') {
+                            $path = '/'.$parents[$i]->key.$path;
+                        }
+                        else {
+                            break;
+                        }
+                    }
+
+                    $self->saveMetadata('path', $path);
+                });
+        }
+
+        //Update metadata
+        $webpage->saveMetadata('external_url', $request->external_url);
 
         $webpage->cacheUrl();
         event(new ContentEvent($webpage));
