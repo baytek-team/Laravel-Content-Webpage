@@ -134,6 +134,8 @@ class WebpageController extends ContentController
         $webpage = parent::contentStore($request);
         $webpage->saveRelation('parent-id', ($request->parent_id) ?: (new Content)->getContentByKey('webpage')->id);
         $webpage->saveMetadata('external_url', $request->external_url);
+        $webpage->saveMetadata('path', $this->buildPathFromParents($webpage));
+
         $webpage->cacheUrl();
 
         $webpage->onBit(Webpage::APPROVED)->update();
@@ -246,7 +248,10 @@ class WebpageController extends ContentController
         // $request->merge(['key' => str_slug($request->title)]);
 
         $webpage = parent::contentUpdate($request, $id);
+
         $webpage->saveMetadata('external_url', $request->external_url);
+        $webpage->saveMetadata('path', $this->buildPathFromParents($webpage));
+
         $webpage->removeRelationByType('parent-id');
         $webpage->saveRelation('parent-id', ($request->parent_id) ?: (new Content)->getContentByKey('webpage')->id);
 
@@ -281,6 +286,23 @@ class WebpageController extends ContentController
         }
 
         $item->offBit(Content::APPROVED)->onBit(Content::DELETED)->update();
+    }
+
+    public function buildPathFromParents($page)
+    {
+        $parents = $page->getParents();
+        $path = '';
+
+        for ($i = count($parents) - 1; $i >= 0; $i--) {
+            if ($parents[$i]->key != 'webpage') {
+                $path = '/'.$parents[$i]->key.$path;
+            }
+            else {
+                break;
+            }
+        }
+
+        return $path;
     }
 
 }
