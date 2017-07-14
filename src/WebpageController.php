@@ -140,6 +140,11 @@ class WebpageController extends ContentController
 
         $webpage->onBit(Webpage::APPROVED)->update();
 
+        //Excluded status if there is an external url meta
+        if ($request->external_url) {
+            $webpage->onBit(Webpage::EXCLUDED)->update();
+        }
+
         event(new ContentEvent($webpage));
 
         return redirect(route($this->names['singular'].'.index'));
@@ -284,6 +289,14 @@ class WebpageController extends ContentController
         //Update metadata
         $webpage->saveMetadata('external_url', $request->external_url);
 
+        //Remove the status bit if there is no external url, or add it if there is
+        if ($webpage->hasStatus(Webpage::EXCLUDED) && !$request->external_url) {
+            $webpage->offBit(Webpage::EXCLUDED)->update();
+        }
+        else if (!$webpage->hasStatus(Webpage::EXCLUDED) && $request->external_url) {
+            $webpage->onBit(Webpage::EXCLUDED)->update();
+        }
+
         $webpage->cacheUrl();
         event(new ContentEvent($webpage));
 
@@ -304,7 +317,8 @@ class WebpageController extends ContentController
         return redirect(route($this->names['singular'].'.index'));
     }
 
-    public function getChildrenAndDelete($item) {
+    public function getChildrenAndDelete($item)
+    {
 
         $children = Content::childrenOf($item->id)->get();
 

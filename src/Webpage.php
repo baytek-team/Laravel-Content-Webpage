@@ -9,6 +9,16 @@ use Cache;
 
 class Webpage extends Content
 {
+    const EXCLUDED = 2 ** 9;  // Exclude from search
+
+    /**
+     * Model specific status for files
+     * @var [type]
+     */
+    public static $statuses = [
+        self::EXCLUDED => 'Excluded From Search',
+    ];
+    
     /**
      * Meta keys that the content expects to save
      * @var Array
