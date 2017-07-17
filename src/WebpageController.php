@@ -147,7 +147,7 @@ class WebpageController extends ContentController
 
         event(new ContentEvent($webpage));
 
-        return redirect(route($this->names['singular'].'.index'));
+        return redirect(route($this->names['singular'].'.edit', $webpage));
         //return redirect(route($this->names['singular'].'.show', $webpage));
     }
 
@@ -300,7 +300,7 @@ class WebpageController extends ContentController
         $webpage->cacheUrl();
         event(new ContentEvent($webpage));
 
-        return redirect(route($this->names['singular'].'.index'));
+        return redirect(route($this->names['singular'].'.edit', $webpage));
         //return redirect(route($this->names['singular'].'.show', $webpage));
     }
 
@@ -314,7 +314,9 @@ class WebpageController extends ContentController
         $this->getChildrenAndDelete($webpage);
         event(new ContentEvent($webpage));
 
-        return redirect(route($this->names['singular'].'.index'));
+        return back();
+
+        // return redirect(route($this->names['singular'].'.index'));
     }
 
     public function getChildrenAndDelete($item)
