@@ -62,11 +62,11 @@ class WebpageContentServiceProvider extends AuthServiceProvider
         $this->registerSettings($this->settings);
 
         // Set the local load path for views
-        $this->loadViewsFrom(__DIR__.'/../resources/Views', 'Webpage');
+        $this->loadViewsFrom(__DIR__.'/../views', 'webpage');
 
         // Set the path to publish assets for users to extend
         $this->publishes([
-            __DIR__.'/../resources/Views' => resource_path('views/vendor/webpage'),
+            __DIR__.'/../views' => resource_path('views/vendor/webpage'),
         ], 'views');
 
         $this->publishes([
@@ -95,6 +95,8 @@ class WebpageContentServiceProvider extends AuthServiceProvider
                         ->name('webpage.create.child');
 
                     $router->resource('admin/webpage', 'WebpageController');
+
+
                     $router->get('{url}', 'WebpageController@render')->where('url', '.*?');
 
                     $router->bind('url', function ($slug) {
