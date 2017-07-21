@@ -51,7 +51,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         $routes = 'routes/admin/webpage.php';
         if(file_exists(base_path($routes))){
-            Route::prefix('admin')
+            Route::prefix('admin/webpage')
                  ->middleware(['web', 'auth'])
                  ->namespace(Controllers::class)
                  ->group(base_path($routes));
@@ -69,7 +69,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         $routes = 'routes/api/webpage.php';
         if(file_exists(base_path($routes))){
-            Route::prefix('api')
+            Route::prefix('api/webpage')
                  ->middleware(['api', 'auth'])
                  ->namespace(Controllers\Api::class)
                  ->group(base_path($routes));
