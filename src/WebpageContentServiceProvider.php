@@ -64,6 +64,11 @@ class WebpageContentServiceProvider extends AuthServiceProvider
         // Set the local load path for views
         $this->loadViewsFrom(__DIR__.'/../views', 'webpage');
 
+        // Publish routes to the App
+        $this->publishes([
+            __DIR__.'/../src/Routes' => base_path('routes'),
+        ], 'routes');
+
         // Set the path to publish assets for users to extend
         $this->publishes([
             __DIR__.'/../views' => resource_path('views/vendor/webpage'),
@@ -76,73 +81,7 @@ class WebpageContentServiceProvider extends AuthServiceProvider
         Broadcast::channel('content.{contentId}', function ($user, $contentId) {
             return true;//$user->id === Content::findOrNew($contentId)->user_id;
         });
-
-        $this->bootRoutes();
     }
-
-    public function bootRoutes()
-    {
-        // Set local namespace and make sure the route bindings occur
-        // if(false) { // We should have a check if we need a wildcard route, and insert after all other routes. Must be last route.
-        if(config('webpage.enabled')) {
-            Route::group([
-                    'namespace' => \Baytek\Laravel\Content\Types\Webpage::class,
-                    'middleware' => ['web'],
-                ], function ($router) {
-                    // Add the default route to the routes list for this provider
-                    $router->get('admin/webpage/{webpage}/edit/parent', 'WebpageController@editParent')->name('webpage.edit.parent');
-                    $router->get('admin/webpage/{webpage}/child', 'WebpageController@create')
-                        ->name('webpage.create.child');
-
-                    $router->resource('admin/webpage', 'WebpageController');
-
-
-                    $router->get('{url}', 'WebpageController@render')->where('url', '.*?');
-
-                    $router->bind('url', function ($slug) {
-                        $webpage = null;
-
-                        // Get the cache route id where slug
-                        if($id = collect(Cache::get('baytek.laravel.webpage.urls', []))->get($slug, false)) {
-                            $webpage = Webpage::find($id);
-                        }
-                        // Try to load the content via another method
-                        else {
-                            // Try to find the page with the slug, this should also check its parents and should also split on /
-                            $segments = collect(explode('/', $slug));
-                            $webpages = Webpage::where('contents.key', $segments->last())->ofContentType('webpage')->get();
-
-                            // Here I try to see if the url parents is the same as the url segments
-                            $webpages->each(function ($page) use ($segments, &$webpage) {
-
-                                // Get a list of the parents of current object
-                                $pages = collect($page->getParents());
-
-                                // If there is no difference of the result of the query and the URL segments we have a match
-                                if($segments->diff($pages->pluck('key'))->isEmpty()) {
-                                    // Set the webpage to the match
-                                    $webpage = $page;
-
-                                    // Cache the URL
-                                    $webpage->cacheUrl();
-
-                                    // Stop Processing
-                                    return false;
-                                }
-                            });
-                        }
-
-                        // Show the 404 page if not found
-                        if(is_null($webpage)) {
-                            //abort(404);
-                        }
-
-                        return $webpage;
-                    });
-                });
-        }
-    }
-
 
     /**
      * Register the application services.
@@ -155,5 +94,6 @@ class WebpageContentServiceProvider extends AuthServiceProvider
         $this->commands($this->commands);
 
         $this->app->register(ContentServiceProvider::class);
+        $this->app->register(RouteServiceProvider::class);
     }
 }

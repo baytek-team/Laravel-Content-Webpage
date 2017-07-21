@@ -1,6 +1,6 @@
 <?php
 
-namespace Baytek\Laravel\Content\Types\Webpage;
+namespace Baytek\Laravel\Content\Types\Webpage\Controllers;
 
 use Baytek\Laravel\Content\Controllers\ContentController;
 use Baytek\Laravel\Content\Events\ContentEvent;
@@ -75,7 +75,8 @@ class WebpageController extends ContentController
         // Get the search criteria
         $search  = (!is_null($request->search))? "%{$request->search}%" : '';
 
-        $query = Content::childrenOfType(content('content-type/webpage')->id, 'webpage')
+        $query = Webpage::withoutGlobalScopes()
+            ->childrenOfType(content('content-type/webpage')->id, 'webpage')
             ->withRelationships()
             ->withStatus('r', Webpage::APPROVED);
         if ($search) {
