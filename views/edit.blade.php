@@ -17,7 +17,7 @@
         {{ csrf_field() }}
         {{ method_field('PUT') }}
 
-        @include('Webpage::form')
+        @include('webpage::form')
         <div class="ui hidden divider"></div>
         <div class="ui hidden divider"></div>
 

@@ -45,7 +45,7 @@ class WebpageController extends ContentController
      * [__construct description]
      * @param \Baytek\Laravel\Settings\SettingsProvider $config Create the config instance
      */
-    public function __construct(\Baytek\Laravel\Settings\SettingsProvider $config)
+    public function __construct(SettingsProvider $config)
     {
         parent::__construct();
     }
@@ -105,7 +105,7 @@ class WebpageController extends ContentController
             'parents' => [],
             'parent' => is_null($id) ? '' : Webpage::find($id),
         ];
-        
+
         return parent::contentCreate();
     }
 

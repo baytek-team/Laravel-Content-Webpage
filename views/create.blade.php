@@ -17,7 +17,7 @@
         <form action="{{route('webpage.store')}}" method="POST" class="ui form">
             {{ csrf_field() }}
 
-            @include('Webpage::form')
+            @include('webpage::form')
 
             <div class="field actions">
 	            <a class="ui button" href="{{ route('webpage.index') }}">Cancel</a>
