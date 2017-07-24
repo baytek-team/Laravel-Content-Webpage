@@ -15,6 +15,7 @@ use DB;
 class WebpageInstaller extends Installer
 {
     public $name = 'Webpage';
+    protected $protected = ['Webpage'];
     protected $provider = WebpageContentServiceProvider::class;
     protected $model = Webpage::class;
     protected $seeder = WebpageSeeder::class;
@@ -52,11 +53,13 @@ class WebpageInstaller extends Installer
 
     public function shouldProtect()
     {
-        foreach(['view', 'create', 'update', 'delete'] as $permission) {
+        foreach ($protected as $model) {
+            foreach(['view', 'create', 'update', 'delete'] as $permission) {
 
-            // If the permission exists in any form do not reseed.
-            if(Permission::where('name', title_case($permission.' '.$this->name))->exists()) {
-                return false;
+                // If the permission exists in any form do not reseed.
+                if(Permission::where('name', title_case($permission.' '.$model)->exists()) {
+                    return false;
+                }
             }
         }
 
