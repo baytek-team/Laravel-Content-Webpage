@@ -68,6 +68,8 @@ class FakeDataSeeder extends Seeder
 
     protected function generateMemberPages()
     {
+    	$content_type = content('content-type/webpage', false);
+    	
     	//Generate the member webpages
     	$members = new Webpage(
  			[
