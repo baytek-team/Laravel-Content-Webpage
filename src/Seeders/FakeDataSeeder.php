@@ -1,6 +1,7 @@
 <?php
 namespace Baytek\Laravel\Content\Types\Webpage\Seeders;
 
+use Baytek\Laravel\Content\Seeder;
 use Baytek\Laravel\Content\Types\Webpage\Webpage;
 
 class FakeDataSeeder extends Seeder
