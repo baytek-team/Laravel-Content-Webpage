@@ -30,7 +30,7 @@ class FakeDataSeeder extends Seeder
  				'key' => 'about',
  				'content' => '',
  				'status' => Webpage::APPROVED,
- 				'language' => App::getLocale(),
+ 				'language' => \App::getLocale(),
  			]
  		);
  		$about->save();
@@ -75,7 +75,7 @@ class FakeDataSeeder extends Seeder
  				'key' => 'members',
  				'content' => '',
  				'status' => Webpage::APPROVED,
- 				'language' => App::getLocale(),
+ 				'language' => \App::getLocale(),
  			]
  		);
  		$members->save();
@@ -90,7 +90,7 @@ class FakeDataSeeder extends Seeder
  				'key' => 'directory',
  				'content' => '',
  				'status' => Webpage::APPROVED,
- 				'language' => App::getLocale(),
+ 				'language' => \App::getLocale(),
  			]
  		);
 		$directory->save();
@@ -105,7 +105,7 @@ class FakeDataSeeder extends Seeder
  				'key' => 'member-rules',
  				'content' => '<p>Here are the member rules:</p><ul><li>Rule 1</li><li>Rule 2</li></ul>',
  				'status' => Webpage::APPROVED,
- 				'language' => App::getLocale(),
+ 				'language' => \App::getLocale(),
  			]
  		);
  		$rules->save();
