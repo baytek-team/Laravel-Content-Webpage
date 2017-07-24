@@ -20,9 +20,9 @@
             @include('webpage::form')
 
             <div class="field actions">
-	            <a class="ui button" href="{{ route('webpage.index') }}">Cancel</a>
+	            <a class="ui button" href="{{ $parent ? route('webpage.show', $parent) : route('webpage.index') }}">Cancel</a>
 	            <button type="submit" class="ui right floated primary button">
-	            	Create Content
+	            	Create Webpage
             	</button>
             </div>
         </form>

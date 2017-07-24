@@ -1,12 +1,46 @@
-<div class="field">
-	<label for="title">Parent</label>
-	<select name="parent_id" class="ui dropdown">
-		<option value="">No Parent</option>
-		@foreach($parents as $item)
-		<option value="{{ $item->id }}"@if(isset($parent_id) && $parent_id == $item->id) selected="selected"@endif>{!! str_repeat('- ', $item->depth) !!}{{ $item->title }}</option>
-		@endforeach
-	</select>
-</div>
+@if($parents)
+	<div class="field">
+		<label for="title">Parent</label>
+		<select name="parent_id" class="ui search dropdown">
+			<option value="">No Parent</option>
+			@foreach($parents as $item)
+
+				@php
+					//Reenable selection of items after its been disabled
+					if ($disabledFlag && $item->depth <= $disabledDepth) {
+						$disabledFlag = false;
+					}
+
+					//Prevent selection of the current folder or its children
+					if ($webpage->id == $item->id) {
+						$disabledFlag = true;
+						$disabledDepth = $item->depth;
+					}
+				@endphp
+
+				<option value="{{ $item->id }}"
+					@if(isset($parent) && $parent->id == $item->id) selected="selected"@endif 
+					@if($disabledFlag) disabled @endif>{!! str_repeat('- ', $item->depth) !!}{{ $item->title }}</option>
+			@endforeach
+		</select>
+	</div>
+@else
+	@if($webpage->id)
+		@section('page.head.menu')
+		    <div class="ui secondary menu">
+	            <a class="item" href="{{route('webpage.edit.parent', $webpage)}}">
+	                <i class="arrow circle outline right icon"></i>{{ ___('Move Webpage') }}
+	            </a>
+		    </div>
+		@endsection
+	@endif
+
+	<input type="hidden" name="parent_id" value="{{$parent ? $parent->id : ''}}">
+	<div class="field">
+		<label>Parent</label>
+		<input type="text" disabled value="{{$parent ? $parent->title : 'No Parent'}}">
+	</div>
+@endif
 
 <div class="field{{ $errors->has('title') ? ' error' : '' }}">
 	<label for="title">Title</label>

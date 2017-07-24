@@ -23,10 +23,10 @@
 
         <div class="ui error message"></div>
         <div class="field actions">
-            <a class="ui button" href="{{ route('webpage.index') }}">Cancel</a>
+            <a class="ui button" href="{{ $parent ? route('webpage.show', $parent) : route('webpage.index') }}">Cancel</a>
 
             <button type="submit" class="ui right floated primary button">
-                Update Content
+                Update Webpage
             </button>
         </div>
     </form>
