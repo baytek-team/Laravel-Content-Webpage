@@ -88,7 +88,6 @@
 								'prepend' => '<i class="delete icon"></i>',
 								'type' => 'route',
 							])
-						@endif
 					</div>
 				</td>
 			</tr>
