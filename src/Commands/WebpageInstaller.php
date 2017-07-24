@@ -4,6 +4,7 @@ namespace Baytek\Laravel\Content\Types\Webpage\Commands;
 use Baytek\Laravel\Content\Models\Content;
 use Baytek\Laravel\Content\Commands\Installer;
 use Baytek\Laravel\Content\Types\Webpage\Seeders\WebpageSeeder;
+use Baytek\Laravel\Content\Types\Webpage\Seeders\FakeDataSeeder;
 use Baytek\Laravel\Content\Types\Webpage\Webpage;
 use Baytek\Laravel\Content\Types\Webpage\WebpageContentServiceProvider;
 use Spatie\Permission\Models\Permission;
@@ -17,6 +18,7 @@ class WebpageInstaller extends Installer
     protected $provider = WebpageContentServiceProvider::class;
     protected $model = Webpage::class;
     protected $seeder = WebpageSeeder::class;
+    protected $fakeSeeder = FakeDataSeeder::class;
     protected $migrationPath = __DIR__.'/../resources/Database/Migrations';
 
     public function shouldPublish()

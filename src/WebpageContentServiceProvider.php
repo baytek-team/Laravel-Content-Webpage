@@ -81,6 +81,9 @@ class WebpageContentServiceProvider extends AuthServiceProvider
         Broadcast::channel('content.{contentId}', function ($user, $contentId) {
             return true;//$user->id === Content::findOrNew($contentId)->user_id;
         });
+
+        //Register factories
+        $this->app->make('Illuminate\Database\Eloquent\Factory')->load(__DIR__ . '/../database/Factories');
     }
 
     /**
