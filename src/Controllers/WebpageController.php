@@ -4,7 +4,6 @@ namespace Baytek\Laravel\Content\Types\Webpage\Controllers;
 
 use Baytek\Laravel\Content\Controllers\ContentController;
 use Baytek\Laravel\Content\Events\ContentEvent;
-use Baytek\Laravel\Content\Controllers\Controller;
 use Baytek\Laravel\Content\Models\Content;
 use Baytek\Laravel\Content\Models\ContentMeta;
 use Baytek\Laravel\Content\Models\ContentRelation;
@@ -39,7 +38,6 @@ class WebpageController extends ContentController
         'edit' => 'edit',
         'show' => 'show',
     ];
-
 
     /**
      * [__construct description]
