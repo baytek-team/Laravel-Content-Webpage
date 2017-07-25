@@ -1,5 +1,5 @@
 @php
-$layout = isset($layout) ? "layouts.$layout" : 'Content::admin';
+$layout = isset($layout) ? "layouts.$layout" : 'contents::admin';
 @endphp
 
 @extends($layout)
