@@ -28,15 +28,17 @@ class WebpageController extends ContentController
      */
     protected $model = Webpage::class;
 
+    protected $viewPrefix = 'admin';
+
     /**
      * List of views this content type uses
      * @var [type]
      */
     protected $views = [
-        'index' => 'index',
-        'create' => 'create',
-        'edit' => 'edit',
-        'show' => 'show',
+        'index' => 'webpage.index',
+        'create' => 'webpage.create',
+        'edit' => 'webpage.edit',
+        'show' => 'webpage.show',
     ];
 
     /**
