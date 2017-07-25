@@ -1,6 +1,6 @@
 <?php
 
-use Baytek\Laravel\Content\Types\Webpage;
+use Baytek\Laravel\Content\Types\Webpage\Webpage;
 
 Route::get('{url}', 'WebpageController@render')->where('url', '.*?');
 Route::bind('url', function ($slug) {

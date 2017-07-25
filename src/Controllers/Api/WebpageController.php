@@ -3,8 +3,8 @@
 namespace Baytek\Laravel\Content\Types\Webpage\Controllers\Api;
 
 use Baytek\Laravel\Content\Types\Webpage\Webpage;
-use Baytek\Laravel\Content\Controllers\ContentController;
 use Baytek\Laravel\Content\Models\Content;
+use Baytek\Laravel\Content\Controllers\ContentController;
 use Baytek\Laravel\Content\Models\Scopes\TranslationScope;
 use Baytek\Laravel\Users\User;
 use Illuminate\Http\Request;
