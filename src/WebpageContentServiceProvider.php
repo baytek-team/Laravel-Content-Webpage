@@ -62,7 +62,7 @@ class WebpageContentServiceProvider extends AuthServiceProvider
         $this->registerSettings($this->settings);
 
         // Set the local load path for views
-        $this->loadViewsFrom(__DIR__.'/../views', 'webpage');
+        $this->loadViewsFrom(__DIR__.'/../views', 'webpages');
 
         // Publish routes to the App
         $this->publishes([
@@ -71,7 +71,7 @@ class WebpageContentServiceProvider extends AuthServiceProvider
 
         // Set the path to publish assets for users to extend
         $this->publishes([
-            __DIR__.'/../views' => resource_path('views/vendor/webpage'),
+            __DIR__.'/../views' => resource_path('views/vendor/webpages'),
         ], 'views');
 
         $this->publishes([
