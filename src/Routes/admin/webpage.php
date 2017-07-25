@@ -5,4 +5,4 @@ Route::get('{webpage}/edit/parent', 'WebpageController@editParent')->name('webpa
 Route::get('{webpage}/child', 'WebpageController@create')
     ->name('webpage.create.child');
 
-Route::resource('', 'WebpageController');
+Route::resource('webpage', 'WebpageController');
