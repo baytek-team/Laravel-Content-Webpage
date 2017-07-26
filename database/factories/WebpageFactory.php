@@ -1,9 +1,11 @@
 <?php
 
+use Baytek\Laravel\Content\Types\Webpage\Webpage;
+
 /**
  * Webpages
  */
-$factory->define(Baytek\Laravel\Content\Types\Webpage\Webpage::class, function (Faker\Generator $faker) {
+$factory->define(Webpage::class, function (Faker\Generator $faker) {
 
     $title = ucwords(implode(' ', $faker->unique()->words(rand(1,5))));
 
@@ -11,7 +13,7 @@ $factory->define(Baytek\Laravel\Content\Types\Webpage\Webpage::class, function (
         'key' => str_slug($title),
         'title' => $title,
         'content' => implode('<br/><br/>', $faker->paragraphs(rand(0, 2))),
-        'status' => App\ContentTypes\Resources\Models\File::APPROVED,
+        'status' => Webpage::APPROVED,
         'language' => App::getLocale(),
     ];
 });
