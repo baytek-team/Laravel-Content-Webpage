@@ -19,7 +19,8 @@ class WebpageSeeder extends Seeder
             'title' => 'Homepage',
             'content' => 'This is the basic and required homepage, every site must have an index.',
             'relations' => [
-                ['content-type', 'webpage']
+                ['content-type', 'webpage'],
+                ['parent-id', 'webpage'],
             ]
         ]
     ];
