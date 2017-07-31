@@ -56,7 +56,9 @@ class FakeDataSeeder extends Seeder
     		$webpage->saveMetadata('path', $this->buildPathFromParents($webpage));
 
     		//Add some external links
-    		if (!rand(0,4)) {
+    		if (!rand(0,5)) {
+                $webpage->title = 'External Link to Google';
+                $webpage->save();
     			$webpage->saveMetadata('external_url', 'http://www.google.ca');
     		}
     		else {
