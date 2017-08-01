@@ -15,6 +15,7 @@ class FakeDataSeeder extends Seeder
     {
         $this->generateAboutPages();
         $this->generateMemberPages();
+        $this->generateContactPages();
     }
 
     protected function generateAboutPages($total = 30)
@@ -117,6 +118,57 @@ class FakeDataSeeder extends Seeder
  		$rules->saveRelation('parent-id', $members->id);
 		$rules->saveMetadata('author_id', 1);
 		$rules->saveMetadata('path', $this->buildPathFromParents($rules));
+    }
+
+    protected function generateContactPages()
+    {
+        $content_type = content('content-type/webpage', false);
+        
+        //Generate the member webpages
+        $contact = new Webpage(
+            [
+                'title' => 'Contact',
+                'key' => 'contact',
+                'content' => '',
+                'status' => Webpage::APPROVED,
+                'language' => \App::getLocale(),
+            ]
+        );
+        $contact->save();
+        $contact->saveRelation('content-type', $content_type);
+        $contact->saveRelation('parent-id', $content_type);
+        $contact->saveMetadata('author_id', 1);
+        $contact->saveMetadata('path', $this->buildPathFromParents($contact));
+
+        $general = new Webpage(
+            [
+                'title' => 'General',
+                'key' => 'general',
+                'content' => '<h2>Address</h2><p>250 City Centre, Suite 801<br/>Ottawa, Ontario</br>K1R 6K7</p>',
+                'status' => Webpage::APPROVED,
+                'language' => \App::getLocale(),
+            ]
+        );
+        $general->save();
+        $general->saveRelation('content-type', $content_type);
+        $general->saveRelation('parent-id', $contact->id);
+        $general->saveMetadata('author_id', 1);
+        $general->saveMetadata('path', $this->buildPathFromParents($general));
+
+        $feedback = new Webpage(
+            [
+                'title' => 'Website Feedback',
+                'key' => 'website-feedback',
+                'content' => '<p>Use the form below to provide feedback to our website support team.',
+                'status' => Webpage::APPROVED,
+                'language' => \App::getLocale(),
+            ]
+        );
+        $feedback->save();
+        $feedback->saveRelation('content-type', $content_type);
+        $feedback->saveRelation('parent-id', $contact->id);
+        $feedback->saveMetadata('author_id', 1);
+        $feedback->saveMetadata('path', $this->buildPathFromParents($feedback));
     }
 
     protected function buildPathFromParents($page)
