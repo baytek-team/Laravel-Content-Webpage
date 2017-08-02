@@ -36,7 +36,7 @@
 @section('content')
 
 <div class="ui text menu">
-	
+
 	@if(!Route::is('webpage.index'))
 	<div class="left menu">
 		@if($parent)
@@ -64,7 +64,7 @@
 	</div>
 </div>
 
-<table class="ui selectable compact table">
+<table class="ui selectable very basic table">
 	<thead>
 		<tr>
 			<th>{{ ___('Title') }}</th>

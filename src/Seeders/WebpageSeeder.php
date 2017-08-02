@@ -22,6 +22,30 @@ class WebpageSeeder extends Seeder
                 ['content-type', 'webpage'],
                 ['parent-id', 'webpage'],
             ]
+        ],
+        [
+            'key' => 'webpage-menu',
+            'title' => 'Webpage Navigation Menu',
+            'content' => '',
+            'relations' => [
+                ['content-type', 'menu'],
+                ['parent-id', 'admin-menu'],
+            ]
+        ],
+        [
+            'key' => 'webpage-index',
+            'title' => 'Webpages',
+            'content' => 'webpage.index',
+            'meta' => [
+                'type' => 'route',
+                'class' => 'item',
+                'append' => '</span>',
+                'prepend' => '<i class="globe left icon"></i><span class="collapseable-text">',
+            ],
+            'relations' => [
+                ['content-type', 'menu-item'],
+                ['parent-id', 'webpage-menu'],
+            ]
         ]
     ];
 
