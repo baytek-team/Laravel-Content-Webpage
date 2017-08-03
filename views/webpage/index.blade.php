@@ -11,48 +11,54 @@
 @endsection
 
 @section('page.head.menu')
-	@if(!Route::is('webpage.index'))
-		@if($parent)
-		<a class="item" href="{{ route('webpage.show', $parent->id) }}">
-			<i class="level up icon"></i>Back to {{ $parent->title }}
-		</a>
-		@else
-		<a class="item" href="{{ route('webpage.index') }}">
-			<i class="level up icon"></i>Back to Webpages
-		</a>
+	<div class="ui secondary menu contextual">
+		<div class="item">
+			<form class="{{ count($errors) != 0 ? ' error' : '' }}" method="GET" action="{{ route('webpage.index')}}" style="display:inline">
+		        <div class="ui left icon right action input">
+		            <input type="text" placeholder="{{ ___('Enter search query') }}" name="search" value="{{ collect(Request::instance()->query)->get('search') }}">
+		            <i class="search icon"></i>
+		            <button type="submit" class="ui basic button">{{ ___('Search') }}</button>
+		        </div>
+		    </form>
+	    </div>
+
+		@if(!Route::is('webpage.index'))
+			@if($parent)
+				<a class="item" href="{{ route('webpage.show', $parent->id) }}">
+					<i class="level up icon"></i>Back to {{ $parent->title }}
+				</a>
+			@else
+				<a class="item" href="{{ route('webpage.index') }}">
+					<i class="level up icon"></i>Back to Webpages
+				</a>
+			@endif
 		@endif
-	@endif
 
-	<form class="{{ count($errors) != 0 ? ' error' : '' }}" method="GET" action="{{ route('webpage.index')}}" style="display:inline">
-        <div class="ui left icon right action input">
-            <input type="text" placeholder="{{ ___('Enter search query') }}" name="search" value="{{ collect(Request::instance()->query)->get('search') }}">
-            <i class="search icon"></i>
-            <button type="submit" class="ui basic button">{{ ___('Search') }}</button>
-        </div>
-    </form>
-
-    @if(isset($webpage))
-    	@link(___('Add Webpage'), [
-    	    'location' => 'webpage.create.child',
-    	    'type' => 'route',
-    	    'class' => 'ui primary button',
-    	    'prepend' => '<i class="world icon"></i>',
-    	    'model' => [
-    	    	'webpage' => $webpage
-    	    ]
-    	])
-    @else
-    	@link(___('Add Webpage'), [
-    	    'location' => 'webpage.create',
-    	    'type' => 'route',
-    	    'class' => 'ui primary button',
-    	    'prepend' => '<i class="world icon"></i>',
-    	])
-    @endif
+		<div class="item">
+		    @if(isset($webpage))
+		    	@link(___('Add Webpage'), [
+		    	    'location' => 'webpage.create.child',
+		    	    'type' => 'route',
+		    	    'class' => 'ui primary button',
+		    	    'prepend' => '<i class="world icon"></i>',
+		    	    'model' => [
+		    	    	'webpage' => $webpage
+		    	    ]
+		    	])
+		    @else
+		    	@link(___('Add Webpage'), [
+		    	    'location' => 'webpage.create',
+		    	    'type' => 'route',
+		    	    'class' => 'ui primary button',
+		    	    'prepend' => '<i class="world icon"></i>',
+		    	])
+		    @endif
+	    </div>
+	</div>
 @endsection
 
 @section('content')
-	<table class="ui very basic padded table">
+	<table class="ui very basic table">
 		<thead>
 			<tr>
 				<th>{{ ___('Title') }}</th>
