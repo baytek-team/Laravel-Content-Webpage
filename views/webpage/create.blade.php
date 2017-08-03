@@ -12,21 +12,17 @@
 
 @section('content')
 
-<div class="flex-center position-ref full-height">
-    <div class="content">
-        <form action="{{route('webpage.store')}}" method="POST" class="ui form">
-            {{ csrf_field() }}
+    <form action="{{route('webpage.store')}}" method="POST" class="ui form">
+        {{ csrf_field() }}
 
-            @include('webpages::webpage.form')
+        @include('webpages::webpage.form')
 
-            <div class="field actions">
-	            <a class="ui button" href="{{ $parent ? route('webpage.show', $parent) : route('webpage.index') }}">Cancel</a>
-	            <button type="submit" class="ui right floated primary button">
-	            	Create Webpage
-            	</button>
-            </div>
-        </form>
-    </div>
-</div>
+        <div class="field actions">
+            <a class="ui button" href="{{ $parent ? route('webpage.show', $parent) : route('webpage.index') }}">Cancel</a>
+            <button type="submit" class="ui right floated primary button">
+            	Create Webpage
+        	</button>
+        </div>
+    </form>
 
 @endsection

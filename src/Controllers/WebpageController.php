@@ -77,8 +77,8 @@ class WebpageController extends ContentController
 
         $query = Webpage::withoutGlobalScopes()
             ->childrenOfType(content('content-type/webpage')->id, 'webpage')
-            ->withRelationships()
-            ->withStatus('r', Webpage::APPROVED);
+            ->withRelationships();
+            // ->withStatus('r', Webpage::APPROVED);
         if ($search) {
             $query = $query->where('r.title', 'like', [$search])
                 ->orWhere('r.content', 'like', [$search]);
