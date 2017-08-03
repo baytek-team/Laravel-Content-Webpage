@@ -14,10 +14,9 @@
 	<div class="ui secondary menu contextual">
 		<div class="item">
 			<form class="{{ count($errors) != 0 ? ' error' : '' }}" method="GET" action="{{ route('webpage.index')}}" style="display:inline">
-		        <div class="ui left icon right action input">
+		        <div class="ui right icon right action input">
 		            <input type="text" placeholder="{{ ___('Enter search query') }}" name="search" value="{{ collect(Request::instance()->query)->get('search') }}">
-		            <i class="search icon"></i>
-		            <button type="submit" class="ui basic button">{{ ___('Search') }}</button>
+		            <button type="submit" class="ui basic button"><i class="search icon"></i></button>
 		        </div>
 		    </form>
 	    </div>
