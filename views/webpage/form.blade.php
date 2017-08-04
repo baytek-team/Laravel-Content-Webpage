@@ -19,7 +19,7 @@
 				@endphp
 
 				<option value="{{ $item->id }}"
-					@if(isset($parent) && $parent->id == $item->id) selected="selected"@endif 
+					@if(isset($parent) && $parent->id == $item->id) selected="selected"@endif
 					@if($disabledFlag) disabled @endif>{!! str_repeat('- ', $item->depth) !!}{{ $item->title }}</option>
 			@endforeach
 		</select>
@@ -27,10 +27,12 @@
 @else
 	@if($webpage->id)
 		@section('page.head.menu')
-		    <div class="ui secondary menu">
-	            <a class="item" href="{{route('webpage.edit.parent', $webpage)}}">
-	                <i class="arrow circle outline right icon"></i>{{ ___('Move Webpage') }}
-	            </a>
+		    <div class="ui secondary contextual menu">
+		    	<div class="item">
+		            <a class="ui icon button" href="{{route('webpage.edit.parent', $webpage)}}">
+		                <i class="arrow circle outline right icon"></i>{{ ___('Move Webpage') }}
+		            </a>
+	            </div>
 		    </div>
 		@endsection
 	@endif
@@ -55,8 +57,3 @@
 	<label for="external_url">External URL</label>
 	<input type="text" id="external_url" name="external_url" placeholder="http://" value="{{ old('external_url', $webpage->getMeta('external_url')) }}">
 </div>
-
-@section('head')
-{{-- <link rel="stylesheet" type="text/css" href="/css/trix.css"> --}}
-{{-- <script type="text/javascript" src="/js/trix.js"></script> --}}
-@endsection
