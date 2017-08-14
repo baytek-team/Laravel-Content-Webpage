@@ -18,7 +18,7 @@ class Webpage extends Content
     public static $statuses = [
         self::EXCLUDED => 'Excluded From Search',
     ];
-    
+
     /**
      * Meta keys that the content expects to save
      * @var Array
@@ -81,5 +81,10 @@ class Webpage extends Content
         else {
             return $urls[$this->id];
         }
+    }
+
+    public function children()
+    {
+        return $this->association(static::class, 'webpage');
     }
 }

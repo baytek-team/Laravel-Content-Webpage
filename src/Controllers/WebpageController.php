@@ -73,16 +73,16 @@ class WebpageController extends ContentController
         $per_page = config('cms.content.webpage.per_page') ?: 20;
 
         // Get the search criteria
-        $search  = (!is_null($request->search))? "%{$request->search}%" : '';
+        $search  = (!is_null($request->search)) ? "%{$request->search}%" : '';
 
-        $query = Webpage::withoutGlobalScopes()
-            ->childrenOfType(content('content-type/webpage')->id, 'webpage')
-            ->withRelationships();
-            // ->withStatus('r', Webpage::APPROVED);
+        $query = content('content-type/webpage')->children()->withRelationships();
+
         if ($search) {
-            $query = $query->where('r.title', 'like', [$search])
+            $query
+                ->where('r.title', 'like', [$search])
                 ->orWhere('r.content', 'like', [$search]);
         }
+
         $webpages = $query->paginate($per_page);
 
         $this->viewData['index'] = [
