@@ -26,10 +26,10 @@ class WebpageController extends ApiController
     	// 	->fresh();
 
         $page;
-        $items = (new Content)->getWithPath('webpage/' . $category);
+        $items = content('webpage/'.$category);
 
         if (count($items) > 1) {
-            foreach( $items as $item ) {
+            foreach($items as $item) {
                 $item->path = $item->getMeta('path');
 
                 if (trim($item->path, '/') == $category) {

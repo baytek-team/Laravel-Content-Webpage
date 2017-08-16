@@ -21,7 +21,7 @@ class FakeDataSeeder extends Seeder
     protected function generateAboutPages($total = 30)
     {
     	//Generate webpages
-    	$content_type = content('content-type/webpage', false);
+    	$content_type = content_id('content-type/webpage');
     	$webpage_ids = collect([]);
 
  		//Generate the top level webpage
@@ -71,8 +71,8 @@ class FakeDataSeeder extends Seeder
 
     protected function generateMemberPages()
     {
-    	$content_type = content('content-type/webpage', false);
-    	
+    	$content_type = content_id('content-type/webpage');
+
     	//Generate the member webpages
     	$members = new Webpage(
  			[
@@ -122,8 +122,8 @@ class FakeDataSeeder extends Seeder
 
     protected function generateContactPages()
     {
-        $content_type = content('content-type/webpage', false);
-        
+        $content_type = content_id('content-type/webpage');
+
         //Generate the member webpages
         $contact = new Webpage(
             [
