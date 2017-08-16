@@ -182,7 +182,8 @@ class WebpageController extends ContentController
 
         $webpages = Webpage::withStatus('contents', Webpage::APPROVED)->get();
         $this->viewData['edit'] = [
-            'parents' => Content::hierarchy($webpages, false),
+            // 'parents' => Content::hierarchy($webpages, false),
+            'parents' => [],
             'parent' => $parent,
             'disabledFlag' => false,
             'disabledDepth' => 0,
