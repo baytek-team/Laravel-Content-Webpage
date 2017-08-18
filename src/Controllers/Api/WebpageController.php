@@ -15,42 +15,24 @@ class WebpageController extends ApiController
 {
     public function index()
     {
-    	return Webpage::all();
+        return Webpage::all();
     }
 
     public function categories($category)
     {
-    	// $page = (new Content)
-    	// 	->getWithPath('webpage/' . $category)
-    	// 	->first()
-    	// 	->fresh();
+        $page = content('webpage/'.$category);
 
-        $page;
-        $items = content('webpage/'.$category);
+        $page->path = $page->getMeta('path');
 
-        if (count($items) > 1) {
-            foreach($items as $item) {
-                $item->path = $item->getMeta('path');
-
-                if (trim($item->path, '/') == $category) {
-                    $page = $item->fresh();
-                    break;
-                }
-            }
-        }
-        else {
-            $page = $items->first()->fresh();
-        }
-
-    	$page->children = Webpage::withoutGlobalScopes()->with([
-		            'relations',
-		            'relations.relation',
-		            'relations.relationType',
+        $page->children = Webpage::withoutGlobalScopes()->with([
+                    'relations',
+                    'relations.relation',
+                    'relations.relationType',
                     'meta'
-		        ])
-	    	->childrenOfType($page->id, 'webpage')
+                ])
+            ->childrenOfType($page->id, 'webpage')
             ->withStatus('r', Webpage::APPROVED)
-	    	->get();
+            ->get();
 
         $page->resources = Content::childrenOfType($page->id, 'file')
             ->withStatus('r', Content::APPROVED)
@@ -71,6 +53,6 @@ class WebpageController extends ApiController
 
         $page->parent = content($page->parent());
 
-    	return $page;
+        return $page;
     }
 }
