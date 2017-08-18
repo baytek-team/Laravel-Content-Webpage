@@ -41,6 +41,7 @@ class WebpageSeeder extends Seeder
                 'class' => 'item',
                 'append' => '</span>',
                 'prepend' => '<i class="globe left icon"></i><span class="collapseable-text">',
+                'permission' => 'View Webpage',
             ],
             'relations' => [
                 ['content-type', 'menu-item'],
