@@ -82,6 +82,8 @@
 								{{-- <i class="level down icon"></i> --}}
 								{{ $webpage->title }}
 							</a>
+							@else
+								{{ $webpage->title }}
 							@endcan
 						</td>
 						<td class="right aligned collapsing">
