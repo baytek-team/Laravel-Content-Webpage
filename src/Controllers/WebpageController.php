@@ -100,7 +100,7 @@ class WebpageController extends ContentController
      */
     public function create($id = null)
     {
-        // $webpages = Webpage::withStatus('contents', Webpage::APPROVED)->get();
+        // $webpages = Webpage::withStatus(Webpage::APPROVED)->get();
         $this->viewData['create'] = [
             // 'parents' => Content::hierarchy($webpages, false),
             'parents' => [],
@@ -180,7 +180,7 @@ class WebpageController extends ContentController
         $webpage = $this->bound($id);
         $parent = $webpage->getRelationship('parent-id');
 
-        $webpages = Webpage::withStatus('contents', Webpage::APPROVED)->get();
+        $webpages = Webpage::withStatus(Webpage::APPROVED)->get();
         $this->viewData['edit'] = [
             // 'parents' => Content::hierarchy($webpages, false),
             'parents' => [],
@@ -207,7 +207,7 @@ class WebpageController extends ContentController
         $builder = content($id)
             ->children('webpage')
             ->withRelationships()
-            ->withStatus('r', Webpage::APPROVED);
+            ->withStatus(Webpage::APPROVED);
 
         if ($search) {
             $builder

@@ -49,11 +49,11 @@ class WebpageController extends ApiController
                     'meta'
 		        ])
 	    	->childrenOfType($page->id, 'webpage')
-            ->withStatus('r', Webpage::APPROVED)
+            ->withStatus(Webpage::APPROVED)
 	    	->get();
 
         $page->resources = Content::childrenOfType($page->id, 'file')
-            ->withStatus('r', Content::APPROVED)
+            ->withStatus(Content::APPROVED)
             ->withMeta()
             ->get();
 
