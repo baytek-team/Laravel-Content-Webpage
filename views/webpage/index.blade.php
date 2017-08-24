@@ -35,24 +35,26 @@
 		@endif
 
 		<div class="item">
-		    @if(isset($webpage))
-		    	@link(___('Add Webpage'), [
-		    	    'location' => 'webpage.create.child',
-		    	    'type' => 'route',
-		    	    'class' => 'ui primary button',
-		    	    'prepend' => '<i class="world icon"></i>',
-		    	    'model' => [
-		    	    	'webpage' => $webpage
-		    	    ]
-		    	])
-		    @else
-		    	@link(___('Add Webpage'), [
-		    	    'location' => 'webpage.create',
-		    	    'type' => 'route',
-		    	    'class' => 'ui primary button',
-		    	    'prepend' => '<i class="world icon"></i>',
-		    	])
-		    @endif
+			@can('Create Webpage')
+			    @if(isset($webpage))
+			    	@link(___('Add Webpage'), [
+			    	    'location' => 'webpage.create.child',
+			    	    'type' => 'route',
+			    	    'class' => 'ui primary button',
+			    	    'prepend' => '<i class="world icon"></i>',
+			    	    'model' => [
+			    	    	'webpage' => $webpage
+			    	    ]
+			    	])
+			    @else
+			    	@link(___('Add Webpage'), [
+			    	    'location' => 'webpage.create',
+			    	    'type' => 'route',
+			    	    'class' => 'ui primary button',
+			    	    'prepend' => '<i class="world icon"></i>',
+			    	])
+			    @endif
+		    @endcan
 	    </div>
 	</div>
 @endsection
@@ -75,17 +77,24 @@
 								{{-- {{ ___('Children') }} --}}
 							</a>
 
+							@can('Update Webpage')
 							<a href="{{ route('webpage.edit', $webpage) }}" class="item">
 								{{-- <i class="level down icon"></i> --}}
 								{{ $webpage->title }}
 							</a>
+							@else
+								{{ $webpage->title }}
+							@endcan
 						</td>
 						<td class="right aligned collapsing">
 							<div class="ui compact text menu">
 
+								@can('Update Webpage')
 								<a href="{{ route('webpage.edit', $webpage) }}" class="item">
 									<i class="pencil icon"></i>
 								</a>
+								@endcan
+								@can('Delete Webpage')
 								@link('', [
 									'class' => 'action item',
 									'confirm' => 'Are you sure you want to delete this webpage?',
@@ -95,6 +104,7 @@
 									'prepend' => '<i class="delete icon"></i>',
 									'type' => 'route',
 								])
+								@endcan
 							</div>
 						</td>
 					</tr>
