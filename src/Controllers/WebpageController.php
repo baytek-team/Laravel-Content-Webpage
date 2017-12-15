@@ -8,7 +8,7 @@ use Baytek\Laravel\Content\Models\Content;
 use Baytek\Laravel\Content\Models\ContentMeta;
 use Baytek\Laravel\Content\Models\ContentRelation;
 use Baytek\Laravel\Content\Types\Webpage\Webpage;
-use Baytek\Laravel\Settings\SettingsProvider;
+use Baytek\Laravel\Settings\SettingsService;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -43,9 +43,9 @@ class WebpageController extends ContentController
 
     /**
      * [__construct description]
-     * @param \Baytek\Laravel\Settings\SettingsProvider $config Create the config instance
+     * @param \Baytek\Laravel\Settings\SettingsService $config Create the config instance
      */
-    public function __construct(SettingsProvider $config)
+    public function __construct(SettingsService $config)
     {
         parent::__construct();
     }
@@ -121,8 +121,7 @@ class WebpageController extends ContentController
         //Validate the request
         $validator = $this->validator($request->all());
 
-        if($validator->fails())
-        {
+        if ($validator->fails()) {
             return back()
                ->withErrors($validator)
                ->withInput();
@@ -236,7 +235,7 @@ class WebpageController extends ContentController
      */
     public function render($id = null)
     {
-        if(is_null($id)) {
+        if (is_null($id)) {
             abort(404);
         }
 
@@ -262,7 +261,7 @@ class WebpageController extends ContentController
 
         //See whether the parent needs to change and if so, update this path and descendents' path
         $parent = $webpage->getRelationship('parent-id');
-        if ( ($parent && $parent->id != $request->parent_id) || ($request->parent_id && !$parent) ) {
+        if (($parent && $parent->id != $request->parent_id) || ($request->parent_id && !$parent)) {
             $webpage->removeRelationByType('parent-id');
             $webpage->saveRelation('parent-id', ($request->parent_id) ?: (new Content)->getContentByKey('webpage')->id);
 
@@ -274,7 +273,7 @@ class WebpageController extends ContentController
 
             //Update descendents' path
             Content::descendentsOfType($webpage->id, 'webpage')
-                ->each(function(&$self) {
+                ->each(function (&$self) {
 
                     $parents = $self->getParents();
                     $path = '';
@@ -282,8 +281,7 @@ class WebpageController extends ContentController
                     for ($i = count($parents) - 1; $i >= 0; $i--) {
                         if ($parents[$i]->key != 'webpage') {
                             $path = '/'.$parents[$i]->key.$path;
-                        }
-                        else {
+                        } else {
                             break;
                         }
                     }
@@ -298,8 +296,7 @@ class WebpageController extends ContentController
         //Remove the status bit if there is no external url, or add it if there is
         if ($webpage->hasStatus(Webpage::EXCLUDED) && !$request->external_url) {
             $webpage->offBit(Webpage::EXCLUDED)->update();
-        }
-        else if (!$webpage->hasStatus(Webpage::EXCLUDED) && $request->external_url) {
+        } elseif (!$webpage->hasStatus(Webpage::EXCLUDED) && $request->external_url) {
             $webpage->onBit(Webpage::EXCLUDED)->update();
         }
 
@@ -347,13 +344,11 @@ class WebpageController extends ContentController
         for ($i = count($parents) - 1; $i >= 0; $i--) {
             if ($parents[$i]->key != 'webpage') {
                 $path = '/'.$parents[$i]->key.$path;
-            }
-            else {
+            } else {
                 break;
             }
         }
 
         return $path;
     }
-
 }

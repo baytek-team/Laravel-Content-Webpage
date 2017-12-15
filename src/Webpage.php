@@ -12,22 +12,17 @@ class Webpage extends Content
     const EXCLUDED = 2 ** 9;  // Exclude from search
 
     /**
-     * Model specific status for files
-     * @var [type]
+     * Return the status messages
+     *
+     * @return Mixed status message
      */
-    public static $statuses = [
-        self::EXCLUDED => 'Excluded From Search',
-    ];
-
-    /**
-     * Meta keys that the content expects to save
-     * @var Array
-     */
-    // protected $meta = [
-    //  'author_id',
-    // ];
-    //I don't know what this was for, but it was causing the getMetaRecord function to break,
-    //since it expects a collection but is given an array
+    public static function statusMessages()
+    {
+        // return Statuses\TermMessages::class;
+        return [
+            self::EXCLUDED => 'Excluded From Search',
+        ];
+    }
 
     /**
      * Content keys that will be saved to the relation tables
@@ -70,21 +65,15 @@ class Webpage extends Content
     {
         $urls = array_flip(Cache::get('baytek.laravel.webpage.urls', []));
 
-        if(!array_key_exists($this->id, $urls)) {
+        if (!array_key_exists($this->id, $urls)) {
             $url = collect($this->getParents())->pluck('key')->implode('/');
             $urls = array_flip($urls);
             $urls[$url] = $this->id;
             Cache::forever('baytek.laravel.webpage.urls', $urls);
 
             return $url;
-        }
-        else {
+        } else {
             return $urls[$this->id];
         }
     }
-
-    // public function children()
-    // {
-    //     return $this->association(static::class, 'webpage');
-    // }
 }
