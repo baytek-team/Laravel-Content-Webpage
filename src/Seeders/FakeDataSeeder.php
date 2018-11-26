@@ -38,6 +38,7 @@ class FakeDataSeeder extends Seeder
  		$about->saveRelation('content-type', $content_type);
  		$about->saveRelation('parent-id', $content_type);
 		$about->saveMetadata('author_id', 1);
+        $about->saveMetadata('path', $this->buildPathFromParents($about));
 
 		$webpage_ids->push($about->id);
 
