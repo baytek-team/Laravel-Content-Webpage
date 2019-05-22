@@ -75,7 +75,7 @@ class WebpageController extends ContentController
         // Get the search criteria
         $search  = (!is_null($request->search)) ? "%{$request->search}%" : '';
 
-        $query = content('content-type/webpage')->children()->withRelationships();
+        $query = content('content-type/webpage')->children()->withRelationships()->withStatus(Webpage::APPROVED);
 
         if ($search) {
             $query
