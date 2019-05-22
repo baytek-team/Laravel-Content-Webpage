@@ -34,6 +34,17 @@ class WebpageController extends ApiController
             ->withStatus(Webpage::APPROVED)
             ->get();
 
+        //Translate the titles of the webpage children, if needed
+        if (count($page->children) && \App::getLocale() == 'fr') {
+            foreach ($page->children as $key => $child) {
+                if ($translation = $child->translation()) {
+                    if ($t = content($translation)) {
+                        $page->children[$key]->title = $t->title;
+                    }
+                }
+            }
+        }
+
         $page->resources = Content::childrenOfType($page->id, 'file')
             ->withStatus(Content::APPROVED)
             ->withMeta()
