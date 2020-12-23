@@ -311,6 +311,11 @@ class WebpageController extends ContentController
     {
         $webpage = $this->bound($id);
 
+        //Update the key of the webpage to reflect deletion
+        $key = substr($webpage->key, 0, 236); //255 (max chars for key column) - 19 (suffix, e.g. "-deleted-1608748292")
+        $webpage->key = $key.'-deleted-'.time();
+        $webpage->save();
+
         $this->getChildrenAndDelete($webpage);
         event(new ContentEvent($webpage));
 
@@ -330,6 +335,7 @@ class WebpageController extends ContentController
             }
         }
 
+        //Update the status
         $item->offBit(Content::APPROVED)->onBit(Content::DELETED)->update();
     }
 
