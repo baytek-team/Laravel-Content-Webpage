@@ -145,6 +145,12 @@ class WebpageController extends ContentController
             $webpage->onBit(Webpage::EXCLUDED)->update();
         }
 
+        //Handle optional order field
+        if ($request->has('order')) {
+            $webpage->order = $request->order;
+            $webpage->save();
+        }
+
         event(new ContentEvent($webpage));
 
         return redirect(route($this->names['singular'].'.edit', $webpage));
@@ -298,6 +304,13 @@ class WebpageController extends ContentController
         }
 
         $webpage->cacheUrl();
+
+        //Handle optional order field
+        if ($request->has('order')) {
+            $webpage->order = $request->order;
+            $webpage->save();
+        }
+        
         event(new ContentEvent($webpage));
 
         return redirect(route($this->names['singular'].'.edit', $webpage));
